@@ -1,0 +1,40 @@
+{% extends "base_public.html" %}
+{% load static %}
+
+
+{% block content %}
+
+
+<div class='container d-flex flex-column justify-content-center vh-100 mx-auto' style='width: 80vw; max-width: 500px;'>    
+    <h1 class='mb-5 mt-5'>Log in to <em>dog&#8209;eared</em></h1>
+    
+    <form method='POST' action=''>
+        {% csrf_token %}
+        
+        <div class='form-floating'>
+            {{ form.username }}<br>
+            <label for='id_username' class='form-label'>{{ form.username.label }}</label></br>
+        </div>
+        {% if form.username.errors %}
+        {{ form.username.errors }}<br>
+        {% endif %}
+        
+        <div class='form-floating'>
+            {{ form.password }}<br>
+            <label for='id_password' class='form-label'>{{ form.password.label }}</label></br>
+        </div>
+        {% if form.password.errors %}
+        {{ form.password.errors }}<br>
+        {% endif %}
+        
+        
+        <button class='btn btn-primary' type='submit' name='Log In User'>Log In</button>
+    </form>
+    
+    <p class='mt-5'><a href='/register/'>Register</a> if haven't yet.<br>
+    Review our <a href='/privacy-policy/'>Privacy Policy</a>.<p>
+
+</div>
+
+
+{% endblock %}

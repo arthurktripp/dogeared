@@ -59,6 +59,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'dogeared.urls'
+LOGIN_REDIRECT_URL = 'home-page'
+LOGOUT_REDIRECT_URL = 'login-page'
+LOGIN_URL = 'login-page'
+
 
 TEMPLATES = [
     {
