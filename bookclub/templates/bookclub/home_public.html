@@ -1,0 +1,44 @@
+{% extends "base_public.html" %}
+{% load static %}
+
+
+
+{% block content %}
+
+
+<div class='container d-flex flex-column justify-content-center align-items-center vh-100'>
+    <div class='row mt-auto'>
+        <div class='col text-center'>
+            <h1><em>dog-eared</em></h1>
+        </div>
+    </div>
+    <div class='row justify-content-center'>
+        <div class='col text-center'>
+            <p>A Book Club Planner</p>
+        </div>
+    </div>
+    
+    <div class='row row-cols-auto justify-content-center'>
+        <div class='col d-flex flex-column gy-5 mb-auto'>
+            <a class='btn btn-primary mb-3 px-4' href='/register/'>Join</a>
+            <a class='btn btn-primary' href='/login/'>Log In</a>
+        </div>
+    </div>
+    
+    <div class='row row-cols-auto justify-content-center mb-3 mt-auto'>
+        <div class='container gy-5 px-4'>
+            <ul class='list-group'>
+                <li class='list-group-item'>Nominate & vote on your next book</li>
+                <li class='list-group-item'>Track meeting times & locations</li>
+                <li class='list-group-item'>Send calendar invites to members</li>
+                <li class='list-group-item'>Save books to your personal library</li>
+                <li class='list-group-item'>Conveniently find & order physical or electronic copies</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+
+{% endblock content %}
