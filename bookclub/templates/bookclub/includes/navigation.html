@@ -29,7 +29,8 @@
                         <a class="nav-link fst-italic" href='/profile/'>Profile</a>
                     </li>            
                 </ul>
-                <form class="d-flex ms-3 me-3 align-self-center" role="search">
+                <form class="d-flex ms-3 me-3 align-self-center" role="search" method='POST' action='search/'>
+                    {% csrf_token %}
                     <input class="form-control me-2 w-100" type="search" placeholder="Find a Book" aria-label="Search">
                     <button class="btn btn-primary" type="submit">Search</button>
                 </form>

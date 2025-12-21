@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 
 from django.shortcuts import render
@@ -43,5 +44,30 @@ class LoginPageView(LoginView):
     form_class = StyledLoginForm
     
 
-class LogoutPageView(LogoutView):
-    pass
+# class LogoutPageView(LogoutView):
+#     pass
+
+
+class AllBookclubsPageView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'bookclub/bookclubs.html')
+
+
+class AllBookshelvesPageView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'bookclub/bookshelves.html')
+
+
+
+class UserProfilePageView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'bookclub/profile.html')
+
+
+
+class SearchPageView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'bookclub/search.html')
+    
+    def post(self, request):
+        return render(request, 'bookclub/search.html')

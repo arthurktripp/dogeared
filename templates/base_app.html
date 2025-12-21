@@ -37,8 +37,20 @@
     {% endif %}
     
     <script src="{% static 'scripts/bootstrap.bundle.js' %}" ></script>
-</body>
 
+
+{% comment %} Temporary content {% endcomment %}
+<div class='container'>
+    <p>YOU'RE LOGGED IN</p>
+
+    <form method="post" action="{% url 'logout-page' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-link">Log Out</button>
+    </form>
+</div>
+
+
+</body>
 
 
 </html>
