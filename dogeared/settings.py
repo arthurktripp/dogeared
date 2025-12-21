@@ -32,20 +32,24 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    '192.168.1.3'
+    '192.168.1.3',
+    '192.168.1.109'
 ]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'bookclub',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    'core',
+    
+    'bookclub',
 ]
 
 MIDDLEWARE = [
@@ -76,6 +80,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
+                'core.context_processors.brand',
             ],
         },
     },
