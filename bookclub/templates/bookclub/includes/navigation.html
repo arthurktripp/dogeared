@@ -1,0 +1,33 @@
+{% load static %}
+
+<nav class='navbar navbar-expand-lg fixed-top mt-3'>
+    <div class='container-sm gy-5 gx-5' style='background-color: var(--bs-content-bg); border-bottom: var(--bs-border-width) solid var(--bs-content-border-color);'>
+        
+        <a class='navbar-brand' href='/'><span class='h3'>{{ brand }}</span></a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse-7" aria-controls="navbar-collapse-7" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse " id="navbar-collapse-1">
+            <ul class="navbar-nav me-5 mb-2 mb-lg-0 d-flex flex-row justify-content-end w-100">
+                <li class="nav-item">
+                    <a class="nav-link fst-italic" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fst-italic" href="/bookclubs/">Bookclubs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fst-italic" href="/bookshelves/">Bookshelves</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link fst-italic" href='/profile/'>Profile</a>
+                </li>            
+            </ul>
+            <form class="d-flex gx-5" role="search">
+                <input class="form-control me-2" type="search" placeholder="Find a Book" aria-label="Search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>

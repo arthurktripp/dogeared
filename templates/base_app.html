@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en" data-bs-core="elegant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' href='{% static 'styles/halfmoon.css' %}'>
+    <link rel='stylesheet' href='{% static 'styles/halfmoon.elegant.css' %}'>
+    <link rel='stylesheet' href='{% static 'styles/overrides.css' %}'>
+    <title>dog-eared</title>
+
+    <style>
+        body {
+        padding-top: 10rem;
+        }
+    </style>
+</head>
+<body>
+
+    {% include "bookclub/includes/navigation.html" %}
+    
+    {% block content %}{% endblock content %}
+
+    {% comment %}
+        This message container is placed tempoararily and should be replaced.
+    {% endcomment %}
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <script src="{% static 'scripts/bootstrap.bundle.js' %}" ></script>
+</body>
+
+
+
+</html>
