@@ -33,7 +33,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     '192.168.1.3',
-    '192.168.1.109'
+    '192.168.1.109',
+    '192.168.0.25'
 ]
 
 
@@ -139,3 +140,6 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

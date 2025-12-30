@@ -23,5 +23,9 @@ class Shelf(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    display_name = models.CharField(max_length=100)
+    profile_pic = models.ImageField(default='default-profile.jpg', upload_to='profile_pics')
+    favorite_genre = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return f'{self.user.username} Profile' 
     
