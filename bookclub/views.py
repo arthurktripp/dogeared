@@ -1,5 +1,6 @@
 from django.contrib import messages
-from django.contrib.auth import login, logout
+from django.contrib.auth import login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 
@@ -33,7 +34,7 @@ class RegisterPageView(CreateView):
         response = super().form_valid(form)
         login(self.request, self.object)
         
-        username = form.cleaned_data.get('username')
+        username = form.cleaned_data.get('username').lower()
         messages.success(self.request, f'Welcome, {username}. Your account has been created.')
         
         return response
@@ -42,10 +43,6 @@ class RegisterPageView(CreateView):
 class LoginPageView(LoginView):
     template_name = 'bookclub/login.html'
     form_class = StyledLoginForm
-    
-
-# class LogoutPageView(LogoutView):
-#     pass
 
 
 class AllBookclubsPageView(LoginRequiredMixin, View):
@@ -61,7 +58,12 @@ class AllBookshelvesPageView(LoginRequiredMixin, View):
 
 class UserProfilePageView(LoginRequiredMixin, View):
     def get(self, request):
-        return render(request, 'bookclub/profile.html')
+        profile = request.user.profile
+        context = {
+            'profile': profile,
+        }
+        
+        return render(request, 'bookclub/profile.html', context)
 
 
 

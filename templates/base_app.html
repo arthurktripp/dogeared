@@ -41,7 +41,8 @@
 
 {% comment %} Temporary content {% endcomment %}
 <div class='container'>
-    <p>YOU'RE LOGGED IN</p>
+    <br><br>
+    <p>YOU'RE LOGGED IN AS {{ request.user.username }} </p>
 
     <form method="post" action="{% url 'logout-page' %}">
     {% csrf_token %}

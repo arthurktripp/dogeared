@@ -23,9 +23,41 @@ class Shelf(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    profile_pic = models.ImageField(default='default-profile.jpg', upload_to='profile_pics')
-    favorite_genre = models.CharField(max_length=100)
     
+    profile_pic = models.ImageField(
+        default='default-profile.jpg',
+        upload_to='profile_pics')
+    
+    about_me = models.TextField(
+        max_length=2000,
+        blank=True)
+    
+    location = models.CharField(
+        max_length=100,
+        blank=True)
+    
+    pronouns = models.CharField(
+        max_length=100,
+        blank=True)
+    
+    website = models.URLField(
+        blank=True)
+    
+    favorite_genre = models.CharField(
+        max_length=100,
+        blank=True)
+    
+    favorite_author = models.CharField(
+        max_length=100,
+        blank=True)
+    
+    recommend_to_everyone = models.CharField(
+        max_length=100,
+        blank=True)
+    
+    currently_reading = models.CharField(
+        max_length=100,
+        blank=True)
+
     def __str__(self):
-        return f'{self.user.username} Profile' 
-    
+        return f'{self.user.username} Profile'

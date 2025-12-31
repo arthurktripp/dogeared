@@ -44,3 +44,6 @@ class StyledLoginForm(AuthenticationForm):
 
         self.fields["username"].label = "Username:"
         self.fields["password"].label = "Password:"
+        
+    def clean_username(self):
+        return self.cleaned_data["username"].lower()
