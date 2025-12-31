@@ -9,9 +9,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from django.views import View
+from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import CreateView
 
 from .forms import RegisterNewUser, StyledLoginForm
+
+from .models import Profile
 
 # Create your views here.
 
@@ -40,6 +43,15 @@ class RegisterPageView(CreateView):
         return response
 
 
+class UserProfilePageView(LoginRequiredMixin, TemplateView):
+    template_name = "bookclub/profile.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["profile"] = self.request.user.profile
+        return context
+
+
 class LoginPageView(LoginView):
     template_name = 'bookclub/login.html'
     form_class = StyledLoginForm
@@ -54,16 +66,6 @@ class AllBookshelvesPageView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'bookclub/bookshelves.html')
 
-
-
-class UserProfilePageView(LoginRequiredMixin, View):
-    def get(self, request):
-        profile = request.user.profile
-        context = {
-            'profile': profile,
-        }
-        
-        return render(request, 'bookclub/profile.html', context)
 
 
 

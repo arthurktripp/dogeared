@@ -25,8 +25,12 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
     profile_pic = models.ImageField(
-        default='default-profile.jpg',
+        default='default-profile.png',
         upload_to='profile_pics')
+    
+    blurb = models.TextField(
+        max_length=140,
+        blank=True)
     
     about_me = models.TextField(
         max_length=2000,

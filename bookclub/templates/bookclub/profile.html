@@ -2,11 +2,125 @@
 {% load static %}
 
 
-
 {% block content %}
 
-<div class='container-lg'>
-{% include 'bookclub/includes/user-card.html' %}
+<div class="container py-4">
+    <div class='row g-4'>
+        <h1 class="mb-3">Your Profile</h1>
+    </div>
+
+    <div class="row g-4">
+        <section class="col-12 col-lg-8">
+            <div class="row g-2 align-items-start mb-5">
+                <div class="col-12 col-sm-5">
+                    <div><strong>Your public user card</strong></div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div>{% include "bookclub/includes/user-card.html" %}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Username</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ user.username }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Your name</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ user.first_name }} {{ user.last_name }}</div>
+                </div>
+            </div>
+            
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Pronouns</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.pronouns }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-4">
+                <div class="col-12 col-sm-4">
+                    <div><strong>Biography</strong></div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div>{{ profile.about_me }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-4">
+                <div class="col-12 col-sm-4">
+                    <div><strong>Blurb</strong></div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div>{{ profile.blurb }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Website</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div><a href='{{ profile.website }}' target='_blank'>{{ profile.website }}</a></div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Location</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.location }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Favorite Genre</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.favorite_genre }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Favorite Author</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.favorite_author }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Everyone should read once</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.recommend_to_everyone }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Currently reading</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.currently_reading }}</div>
+                </div>
+            </div>
+
+        </section>
+    </div>
 </div>
 
 {% endblock %}

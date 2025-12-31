@@ -1,5 +1,25 @@
+/* Variable font: Upright */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../fonts/cormorant-garamond/CormorantGaramond-VariableFont_wght.woff2") format("woff2");
+  font-weight: 300 700;   /* adjust if you want a narrower range */
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Variable font: Italic */
+@font-face {
+  font-family: "Cormorant Garamond";
+  src: url("../fonts/cormorant-garamond/CormorantGaramond-Italic-VariableFont_wght.woff2") format("woff2");
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+
 :root {
   --bs-font-size-base: 1rem;   /* was 0.875rem */
   --bs-font-size-sm:   0.9rem; /* was 0.75rem */
   --bs-font-size-lg:   1.1rem; /* was 1rem */
+  --bs-font-serif: "Cormorant Garamond", Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }

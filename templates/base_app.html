@@ -13,18 +13,24 @@
 
     <style>
         body {
-        padding-top: 10rem;
+        padding-top: 5rem;
         }
     </style>
 </head>
+
+<header>
+    {% include "bookclub/includes/navigation.html" %}
+</header>
+
 <body>
 
-    {% include "bookclub/includes/navigation.html" %}
-    
-    {% block content %}{% endblock content %}
+    <div class='container-lg gx-5'>
+        {% block content %}
+        {% endblock content %}
+    </div>
 
     {% comment %}
-        This message container is placed tempoararily and should be replaced.
+        This message container is placed temporarily and should be replaced.
     {% endcomment %}
     {% if messages %}
     <div class="container mt-3">
@@ -36,22 +42,20 @@
     </div>
     {% endif %}
     
+    
+    
+    {% comment %} Temporary content {% endcomment %}
+    <div class='container'>
+        <br><br>
+        <p>You are logged in as <strong>{{ request.user.username }}</strong></p>
+        
+        <form method="post" action="{% url 'logout-page' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link">Log Out</button>
+        </form>
+    </div>
+    
+    
     <script src="{% static 'scripts/bootstrap.bundle.js' %}" ></script>
-
-
-{% comment %} Temporary content {% endcomment %}
-<div class='container'>
-    <br><br>
-    <p>YOU'RE LOGGED IN AS {{ request.user.username }} </p>
-
-    <form method="post" action="{% url 'logout-page' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-link">Log Out</button>
-    </form>
-</div>
-
-
 </body>
-
-
 </html>

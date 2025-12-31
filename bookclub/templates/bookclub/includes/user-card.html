@@ -2,30 +2,28 @@
 
 <div class="card overflow-hidden specific-w-300 specific-w-sm-450 mw-100">
   <div class="row g-0">
-    <div class="col-sm-5">
-      <img src={{ profile.profile_pic.url }} class="img-fluid" alt="Profile pic of user {{ profile.user.username }}">
+    <div class="col-sm-5 d-flex justify-content-center">
+      <img src="{{ profile.profile_pic.url }}" class="object-fit-contain img-fluid" width='100%' alt="Profile pic of user {{ profile.user.username }}">
     </div>
 
     <div class="col-sm-7">
       <div class="card-body">
         <p class="h5 card-title mb-1">{{ profile.user.username }}</p>
         
+        <p class='card-subtitle'>
+            {% if profile.user.first_name %}{{ profile.user.first_name }}{% endif %}
+            {% if profile.user.last_name %}{{ profile.user.last_name }}{% endif %}
+            {% if profile.pronouns %}<i><small>{{ profile.pronouns }}</small></i>{% endif %}
+        </p>
         
-            <p class='card-subtitle'>
-                {% if profile.user.first_name %}{{ profile.user.first_name }}{% endif %}
-                {% if profile.user.last_name %}{{ profile.user.last_name }}{% endif %}
-                {% if profile.pronouns %}<i><small>{{ profile.pronouns }}</small></i>{% endif %}
-            </p>
-        
-        
-        {% if profile.about_me  %}
-            <p class="card-text">{{ profile.about_me }}</p>
+        {% if profile.blurb  %}
+            <p class="card-text">{{ profile.blurb }}</p>
         {% endif %}
-        
+
         {% if profile.currently_reading %}
-            <p class="card-text">
-                <small class="text-body-secondary">Currently Reading: {{ profile.currently_reading }}</small>
-            </p>
+        <p class="card-text">
+            <small class="text-body-secondary">Currently Reading: {{ profile.currently_reading }}</small>
+        </p>
         {% endif %}
       </div>
     </div>
