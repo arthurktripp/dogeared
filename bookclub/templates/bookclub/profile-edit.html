@@ -1,0 +1,161 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container py-4">
+    <div class='d-flex align-items-baseline gap-3 mb-3'>
+        <h1 class="mb-3">Edit Your Profile</h1>
+        <small><a href='/profile'>back</a></small>
+    </div>
+
+    <div class="row g-4">
+        <section class="col-12 col-lg-8">
+            <div class="row g-2 align-items-start mb-5">
+                <div class="col-12 col-sm-5">
+                    <div>
+                        <strong>Your public user card</strong><br>
+                        This is how you are seen to others in your book clubs.
+                    </div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div class='my-auto'>{% include "bookclub/includes/user-card.html" %}</div>
+                </div>
+            </div>
+
+            
+            <form method="post" enctype="multipart/form-data" style='width: 80vw; max-width: 500px;'>
+                {% csrf_token %}
+
+                
+                <div id='basic-info' class='mb-4'>
+                    <div class='mb-4'>
+                        <label for='id_is_public' class='form-check-label'>{{ profile_form.is_public.label }}</label>
+                        {{ profile_form.is_public }}
+                        <div id="is-public-desc-block" class="form-text">
+                            If checked, other users can view your profile page, including any details below except your email address. Your email may be used by your book club organizers and may be visible in group communications.
+                        </div>
+                        {% if profile_form.is_public.errors %}
+                        {{ profile_form.is_public.errors }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class='mb-1'>
+                        <label for='id_first_name' class='form-label mb-0'>{{ user_form.first_name.label }}</label></br>
+                        {{ user_form.first_name }}
+                        {% if user_form.first_name.errors %}
+                        {{ user_form.first_name.errors }}
+                        {% endif %}
+                    </div>
+
+                    <div class='mb-1'>
+                        <label for='id_last_name' class='form-label mb-0'>{{ user_form.last_name.label }}</label></br>
+                        {{ user_form.last_name }}
+                        {% if user_form.last_name.errors %}
+                        {{ user_form.last_name.errors }}
+                        {% endif %}
+                    </div>
+
+                    <div class='mb-1'>
+                        <label for='id_pronouns' class='form-label mb-0'>{{ profile_form.pronouns.label }}</label></br>
+                        {{ profile_form.pronouns }}
+                        {% if profile_form.pronouns.errors %}
+                        {{ profile_form.pronouns.errors }}
+                        {% endif %}
+                    </div>
+
+                    <div class='mb-1'>
+                        <label for='id_email' class='form-label mb-0'>{{ user_form.email.label }}</label></br>
+                        {{ user_form.email }}
+                        {% if user_form.email.errors %}
+                        {{ user_form.email.errors }}
+                        {% endif %}
+                    </div>
+                
+                    <div class='mb-1'>
+                        <label for='id_website' class='form-label mb-0'>{{ profile_form.website.label }}</label></br>
+                        {{ profile_form.website }}
+                        {% if profile_form.website.errors %}
+                        {{ profile_form.website.errors }}
+                        {% endif %}
+                    </div>
+                
+                    <div class='mb-3'>
+                        <label for='id_location' class='form-label mb-0'>{{ profile_form.location.label }}</label></br>
+                        {{ profile_form.location }}
+                        {% if profile_form.location.errors %}
+                        {{ profile_form.location.errors }}
+                        {% endif %}
+                    </div>
+                </div>
+                
+
+                <div id='bio-info' class='mb-4'>
+                    <div class='mb-3'>
+                        <label for='id_blurb' class='form-label mb-0 '>{{ profile_form.blurb.label }}</label></br>
+                        {{ profile_form.blurb }}
+                        <div id="blurb-description-block" class="form-text">
+                            A brief description of yourself that is displayed in your user card. Up to 140 characters.
+                        </div>
+                        {% if profile_form.blurb.errors %}
+                        {{ profile_form.blurb.errors }}
+                        {% endif %}
+                    </div>
+
+                    <div class='mb-1'>
+                        <label for='id_about_me' class='form-label mb-0'>{{ profile_form.about_me.label }}</label></br>
+                        {{ profile_form.about_me }}
+                        {% if profile_form.about_me.errors %}
+                        {{ profile_form.about_me.errors }}
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div id='books' class='mb-5'>
+                    <div class='mb-1'>
+                        <label for='id_favorite_genre' class='form-label mb-0'>{{ profile_form.favorite_genre.label }}</label></br>
+                        {{ profile_form.favorite_genre }}
+                        {% if profile_form.favorite_genre.errors %}
+                        {{ profile_form.favorite_genre.errors }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class='mb-1'>
+                        <label for='id_favorite_author' class='form-label mb-0'>{{ profile_form.favorite_author.label }}</label></br>
+                        {{ profile_form.favorite_author }}
+                        {% if profile_form.favorite_author.errors %}
+                        {{ profile_form.favorite_author.errors }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class='mb-1'>
+                        <label for='id_recommend_to_everyone' class='form-label mb-0'>{{ profile_form.recommend_to_everyone.label }}</label></br>
+                        {{ profile_form.recommend_to_everyone }}
+                        {% if profile_form.recommend_to_everyone.errors %}
+                        {{ profile_form.recommend_to_everyone.errors }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class='mb-1'>
+                        <label for='id_currently_reading' class='form-label mb-0'>{{ profile_form.currently_reading.label }}</label></br>
+                        {{ profile_form.currently_reading }}
+                        <div id="currently-reading-desc-block" class="form-text">
+                            Think of this like your status. Shown in your public profile card.
+                        </div>
+                        {% if profile_form.currently_reading.errors %}
+                        {{ profile_form.currently_reading.errors }}
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <button type="submit" class='btn btn-primary gx-3 ' name='Save changes to profile'>Save changes</button>
+                <a class='btn btn-secondary' href='/profile'>Cancel</a>
+            </form>
+
+        </section>
+    </div>
+</div>
+
+{% endblock %}

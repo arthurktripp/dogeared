@@ -24,6 +24,8 @@ class Shelf(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
+    is_public = models.BooleanField(default=False)
+    
     profile_pic = models.ImageField(
         default='default-profile.png',
         upload_to='profile_pics')

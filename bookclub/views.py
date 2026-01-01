@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.urls import reverse_lazy
 
@@ -12,7 +12,7 @@ from django.views import View
 from django.views.generic import DetailView, TemplateView
 from django.views.generic.edit import CreateView
 
-from .forms import RegisterNewUser, StyledLoginForm
+from .forms import RegisterNewUser, StyledLoginForm, UserEditForm, ProfileEditForm
 
 from .models import Profile
 
@@ -50,6 +50,40 @@ class UserProfilePageView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["profile"] = self.request.user.profile
         return context
+    
+class EditUserProfilePageView(LoginRequiredMixin, TemplateView):
+    template_name = 'bookclub/profile-edit.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["profile"] = self.request.user.profile
+        return context
+    
+    def get(self, request, *args, **kwargs):
+        user_form = UserEditForm(instance=request.user)
+        profile_form = ProfileEditForm(instance=request.user.profile)
+        return self.render_to_response(self.get_context_data(
+            user_form=user_form,
+            profile_form=profile_form,
+        ))
+        
+    def post(self, request, *args, **kwargs):
+        user_form = UserEditForm(request.POST, instance=request.user)
+        profile_form = ProfileEditForm(request.POST, instance=request.user.profile)
+        
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, "Profile updated.")
+            return redirect("profile-page")
+
+        return self.render_to_response(self.get_context_data(
+            user_form=user_form,
+            profile_form=profile_form,
+        ))
+
+
+
 
 
 class LoginPageView(LoginView):
@@ -75,3 +109,7 @@ class SearchPageView(LoginRequiredMixin, View):
     
     def post(self, request):
         return render(request, 'bookclub/search.html')
+    
+
+class PublicProfilePageView(LoginRequiredMixin, View):
+    pass

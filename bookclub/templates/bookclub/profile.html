@@ -5,19 +5,35 @@
 {% block content %}
 
 <div class="container py-4">
-    <div class='row g-4'>
+    <div class='d-flex align-items-baseline gap-3 mb-3'>
         <h1 class="mb-3">Your Profile</h1>
+        <small><a href='{% url 'edit-profile-page' %}'>edit</a></small>
     </div>
 
     <div class="row g-4">
         <section class="col-12 col-lg-8">
             <div class="row g-2 align-items-start mb-5">
                 <div class="col-12 col-sm-5">
-                    <div><strong>Your public user card</strong></div>
+                    <div>
+                        <strong>Your public user card</strong><br>
+                        This is how you are seen to others in your book clubs.
+                    </div>
                 </div>
                 <div class="col-12 col-sm-8">
                     <div>{% include "bookclub/includes/user-card.html" %}</div>
                 </div>
+                <div class="col-12 col-sm-5">
+                    <div></div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                {% if profile.is_public is True %}
+                <p>View your <a href='/profile/{{ user.username }}/'>public profile page</a>.<br>
+                    You can disable this in the <a href='{% url 'edit-profile-page' %}'>edit panel</a>.</p>
+                {% else %}
+                <p>Your public profile page is disabled. You can enable this in the <a href='{% url 'edit-profile-page' %}'>edit panel</a>.</p>
+                {% endif %}
             </div>
 
             <div class="row g-2 align-items-start mb-2">
@@ -31,7 +47,7 @@
 
             <div class="row g-2 align-items-start mb-2">
                 <div class="col-5 col-sm-4">
-                    <div><strong>Your name</strong></div>
+                    <div><strong>Name</strong></div>
                 </div>
                 <div class="col-7 col-sm-8">
                     <div>{{ user.first_name }} {{ user.last_name }}</div>
@@ -47,21 +63,12 @@
                 </div>
             </div>
 
-            <div class="row g-2 align-items-start mb-4">
-                <div class="col-12 col-sm-4">
-                    <div><strong>Biography</strong></div>
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Email</strong></div>
                 </div>
-                <div class="col-12 col-sm-8">
-                    <div>{{ profile.about_me }}</div>
-                </div>
-            </div>
-
-            <div class="row g-2 align-items-start mb-4">
-                <div class="col-12 col-sm-4">
-                    <div><strong>Blurb</strong></div>
-                </div>
-                <div class="col-12 col-sm-8">
-                    <div>{{ profile.blurb }}</div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ user.email }}</div>
                 </div>
             </div>
 
@@ -73,8 +80,8 @@
                     <div><a href='{{ profile.website }}' target='_blank'>{{ profile.website }}</a></div>
                 </div>
             </div>
-
-            <div class="row g-2 align-items-start mb-2">
+            
+            <div class="row g-2 align-items-start mb-4">
                 <div class="col-5 col-sm-4">
                     <div><strong>Location</strong></div>
                 </div>
@@ -82,6 +89,25 @@
                     <div>{{ profile.location }}</div>
                 </div>
             </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-12 col-sm-4">
+                    <div><strong>Blurb</strong></div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div>{{ profile.blurb }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-4">
+                <div class="col-12 col-sm-4">
+                    <div><strong>Biography</strong></div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div>{{ profile.about_me }}</div>
+                </div>
+            </div>
+
 
             <div class="row g-2 align-items-start mb-2">
                 <div class="col-5 col-sm-4">
