@@ -2,7 +2,7 @@
 
 {% load static %}
 
-<html lang="en" data-bs-core="elegant">
+<html lang="en" data-bs-core="elegant" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,37 +23,39 @@
 </header>
 
 <body>
-    <div id='body-container' class='container gx-5'>
+    <div id='content-container' class='container-sm mt-md-5'>
+        <div class='container-wide'>
         {% block content %}
         {% endblock content %}
-    </div>
-
-    {% comment %}
-        This message container is placed temporarily and should be replaced.
-    {% endcomment %}
-    {% if messages %}
-    <div class="container mt-3">
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }}">
-            {{ message }}
         </div>
-        {% endfor %}
     </div>
-    {% endif %}
-    
-    
-    
-    {% comment %} Temporary content {% endcomment %}
-    <div class='container'>
-        <br><br>
-        <p>You are logged in as <strong>{{ request.user.username }}</strong></p>
         
-        <form method="post" action="{% url 'logout-page' %}">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-link">Log Out</button>
-        </form>
-    </div>
-    
+
+        {% comment %}
+            This message container is placed temporarily and should be replaced.
+        {% endcomment %}
+        {% if messages %}
+        <div class="container mt-3">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        
+        
+        {% comment %} Temporary content {% endcomment %}
+        <div class='container'>
+            <br><br>
+            <p>You are logged in as <strong>{{ request.user.username }}</strong></p>
+            
+            <form method="post" action="{% url 'logout-page' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link">Log Out</button>
+            </form>
+        </div>
     
     <script src="{% static 'scripts/bootstrap.bundle.js' %}" ></script>
 </body>

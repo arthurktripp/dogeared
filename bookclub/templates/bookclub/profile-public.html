@@ -1,0 +1,72 @@
+{% extends 'base_app.html' %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+    <h1 class=>{{ profile.user.username }}</h1>
+    <div class='row'>
+        <div class='col-md-6'>
+            
+            {% if profile.user.first_name or profile.user.last_name or profile.pronouns %}
+            <p><b>{{ profile.user.first_name }} {{ profile.user.last_name}}</b> {{ profile.pronouns }}</p>
+            {% endif %}
+            
+            <dl>
+                {% if profile.website %}
+                    <dt>Website:</dt>
+                    <dd><a href='{{ profile.website }}' target='_blank'>{{ profile.website }}</a></dd>
+                {% endif %}
+
+                {% if profile.currently_reading %}
+                    <dt>Currently Reading:</dt>
+                    <dd>{{ profile.currently_reading }}</dd>
+                {% endif %}
+
+                {% if profile.location %}
+                    <dt>Location:</dt>
+                    <dd>{{ profile.location }}</dd>
+                {% endif %}
+
+        </div>
+        <div class='col-md-6'>
+            <img src='{{ profile.profile_pic.url }}' width='100%' style='max-width: 250px;'>
+        </div>
+
+    </div>
+    <dl>
+
+        <div class='row mt-3 mb-3'>
+            {% if profile.favorite_author %}
+                <div class='col-md-4'>
+                    <dt>Favorite Author:</dt>
+                    <dd>{{ profile.favorite_author }}</dd>
+                </div>
+            {% endif %}
+            {% if profile.favorite_genre %}
+                <div class='col-md-4'>
+                    <dt>Favorite Genre:</dt>
+                    <dd>{{ profile.favorite_genre }}</dd>
+                </div>
+            {% endif %}
+            {% if profile.recommend_to_everyone %}
+                <div class='col-md-4'>
+                    <dt>Everyone should read once:</dt>
+                    <dd>{{ profile.recommend_to_everyone }}</dd>
+                </div>
+            {% endif %}
+     
+        </div>
+        <div class='row'>
+            {% if profile.about_me %}
+            <dt>Biography:</dt>
+            <dd>{{ profile.about_me }}</dd>
+            {% endif %}
+        </div>
+    </dl>
+
+
+</div>
+
+{% endblock %}

@@ -23,3 +23,22 @@
   --bs-font-size-lg:   1.1rem; /* was 1rem */
   --bs-font-serif: "Cormorant Garamond", Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
+
+.container-wide {
+  max-width: 1000px;
+}
+.container-medium {
+  max-width: 960px;
+}
+
+
+/* #dog-ear-shape {
+  position: fixed;
+  z-index: 1;
+  top: 0px;
+  left: 0px;
+  width: 90px;
+  height: 90px;
+  background: #f2f2ef;
+  clip-path: polygon(80% 0, 60% 80%, 0 60%);
+} */

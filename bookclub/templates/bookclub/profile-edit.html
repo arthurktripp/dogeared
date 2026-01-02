@@ -4,27 +4,14 @@
 
 {% block content %}
 
-<div class="container py-4">
+<div class="container">
     <div class='d-flex align-items-baseline gap-3 mb-3'>
-        <h1 class="mb-3">Edit Your Profile</h1>
-        <small><a href='/profile'>back</a></small>
+        <h1>Edit Your Profile</h1>
+        <small><a href='{% url 'profile-page' %}'>back</a></small>
     </div>
 
-    <div class="row g-4">
-        <section class="col-12 col-lg-8">
-            <div class="row g-2 align-items-start mb-5">
-                <div class="col-12 col-sm-5">
-                    <div>
-                        <strong>Your public user card</strong><br>
-                        This is how you are seen to others in your book clubs.
-                    </div>
-                </div>
-                <div class="col-12 col-sm-8">
-                    <div class='my-auto'>{% include "bookclub/includes/user-card.html" %}</div>
-                </div>
-            </div>
-
-            
+    <div class="row">
+        <div class='col-md-8 mb-5'>
             <form method="post" enctype="multipart/form-data" style='width: 80vw; max-width: 500px;'>
                 {% csrf_token %}
 
@@ -153,8 +140,16 @@
                 <button type="submit" class='btn btn-primary gx-3 ' name='Save changes to profile'>Save changes</button>
                 <a class='btn btn-secondary' href='/profile'>Cancel</a>
             </form>
-
-        </section>
+        </div>
+        <div class='col-md-4'>
+            <div>
+                <strong>Your public user card</strong><br>
+                This is how you are seen to others in your book clubs.
+            </div>
+            <div>
+                {% include "bookclub/includes/user-card.html" %}
+            </div>
+        </div>
     </div>
 </div>
 

@@ -2,9 +2,9 @@ from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.urls import reverse_lazy
 
@@ -83,6 +83,15 @@ class EditUserProfilePageView(LoginRequiredMixin, TemplateView):
         ))
 
 
+class PublicProfilePageView(LoginRequiredMixin, DetailView):
+    template_name = 'bookclub/profile-public.html'
+    model = Profile
+    
+
+    def get_object(self, queryset=None):
+        username = self.kwargs["username"]
+        return get_object_or_404(Profile, user__username=username, is_public=True)
+
 
 
 
@@ -101,8 +110,6 @@ class AllBookshelvesPageView(LoginRequiredMixin, View):
         return render(request, 'bookclub/bookshelves.html')
 
 
-
-
 class SearchPageView(LoginRequiredMixin, View):
     def get(self, request):
         return render(request, 'bookclub/search.html')
@@ -111,5 +118,3 @@ class SearchPageView(LoginRequiredMixin, View):
         return render(request, 'bookclub/search.html')
     
 
-class PublicProfilePageView(LoginRequiredMixin, View):
-    pass
