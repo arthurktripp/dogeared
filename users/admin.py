@@ -6,7 +6,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .models import CustomUser
+from .models import CustomUser, Profile
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
@@ -28,3 +28,9 @@ class CustomUserAdmin(UserAdmin):
             "fields": ("email", "username", "password1", "password2", "is_staff", "is_superuser"),
         }),
     )
+    
+    
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ("user",)
+    

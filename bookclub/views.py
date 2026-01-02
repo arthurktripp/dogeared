@@ -14,7 +14,7 @@ from django.views.generic.edit import CreateView
 
 from .forms import RegisterNewUser, StyledLoginForm, UserEditForm, ProfileEditForm
 
-from .models import Profile
+from users.models import Profile
 
 # Create your views here.
 

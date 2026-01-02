@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django import forms
 from turnstile.fields import TurnstileField
 
-from .models import Profile
-from users.models import CustomUser
+
+from users.models import CustomUser, Profile
 
 
 class RegisterNewUser(UserCreationForm):

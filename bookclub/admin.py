@@ -3,7 +3,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Book, Shelf, Profile
+from .models import Book, Shelf
 
 
 @admin.register(Book)
@@ -14,7 +14,3 @@ class BookAdmin(admin.ModelAdmin):
 class ShelfAdmin(admin.ModelAdmin):
     list_display = ("name",)
 
-@admin.register(Profile)
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ("user",)
-    
