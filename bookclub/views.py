@@ -37,8 +37,9 @@ class RegisterPageView(CreateView):
         response = super().form_valid(form)
         login(self.request, self.object)
         
+        submitted_username = form.cleaned_data.get('username')
         username = form.cleaned_data.get('username').lower()
-        messages.success(self.request, f'Welcome, {username}. Your account has been created.')
+        messages.success(self.request, f'Welcome, {submitted_username}. Your account has been created.')
         
         return response
 
@@ -50,6 +51,7 @@ class UserProfilePageView(LoginRequiredMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         context["profile"] = self.request.user.profile
         return context
+    
     
 class EditUserProfilePageView(LoginRequiredMixin, TemplateView):
     template_name = 'bookclub/profile-edit.html'
@@ -90,7 +92,7 @@ class PublicProfilePageView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         username = self.kwargs["username"]
-        return get_object_or_404(Profile, user__username=username, is_public=True)
+        return get_object_or_404(Profile, user__username__iexact=username, is_public=True)
 
 
 
