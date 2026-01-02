@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'core',
+    'users',
     
     'bookclub',
 ]
@@ -67,6 +68,7 @@ ROOT_URLCONF = 'dogeared.urls'
 LOGIN_REDIRECT_URL = 'home-page'
 LOGOUT_REDIRECT_URL = 'login-page'
 LOGIN_URL = 'login-page'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 
 TEMPLATES = [
@@ -143,3 +145,4 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+

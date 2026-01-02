@@ -4,11 +4,12 @@ from django import forms
 from turnstile.fields import TurnstileField
 
 from .models import Profile
+from users.models import CustomUser
 
 
 class RegisterNewUser(UserCreationForm):
     class Meta(UserCreationForm.Meta):
-        model = User
+        model = CustomUser
         fields = [
             'username',
             'email',
@@ -33,6 +34,9 @@ class RegisterNewUser(UserCreationForm):
         self.fields["password2"].label = "Confirm Password:"
         
         self.fields["email"].required = True
+        
+    def clean_email(self):
+        return self.cleaned_data["email"].lower()
 
 
 class StyledLoginForm(AuthenticationForm):        
@@ -44,7 +48,7 @@ class StyledLoginForm(AuthenticationForm):
                 "class": "form-control"
             })
 
-        self.fields["username"].label = "Username:"
+        self.fields["username"].label = "Email:"
         self.fields["password"].label = "Password:"
         
     def clean_username(self):
