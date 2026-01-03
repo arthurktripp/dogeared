@@ -1,0 +1,70 @@
+{
+    "title": "Gray Mountain",
+    "physical_format": "paperback",
+    "authors": [
+        {
+            "key": "/authors/OL39329A"
+        }
+    ],
+    "publishers": [
+        "Hodder & Stoughton Ltd", "imusti"
+    ],
+    "publish_date": "Jan 29, 2015",
+    "isbn_10": [
+        "1444798820"
+    ],
+    "isbn_13": [
+        "9781444798821"
+    ],
+    "source_records": [
+        "promise:bwb_daily_pallets_2021-06-10:KO-660-039",
+        "amazon:1444798820",
+        "ia:graymountain0000gris_l6n0",
+        "promise:bwb_daily_pallets_2021-05-19:KO-507-366",
+        "promise:bwb_daily_pallets_2021-05-06:KP-016-799",
+        "promise:bwb_daily_pallets_2020-07-30:KN-652-792"
+    ],
+    "type": {
+        "key": "/type/edition"
+    },
+    "full_title": "Gray Mountain",
+    "covers": [
+        12014614
+    ],
+    "ocaid": "graymountain0000gris_l6n0",
+    "languages": [
+        {
+            "key": "/languages/eng"
+        }
+    ],
+    "lc_classifications": [
+        "PS3557.R5355 G73 2015"
+    ],
+    "local_id": [
+        "urn:bwbsku:KO-660-039",
+        "urn:bwbsku:KO-507-366",
+        "urn:bwbsku:KP-016-799",
+        "urn:bwbsku:KN-652-792"
+    ],
+    "key": "/books/OL33955702M",
+    "works": [
+        {
+            "key": "/works/OL17116913W"
+        }
+    ],
+    "identifiers": {
+        "amazon": [
+            ""
+        ]
+    },
+    "latest_revision": 15,
+    "revision": 15,
+    "created": {
+        "type": "/type/datetime",
+        "value": "2021-09-28T15:46:34.512550"
+    },
+    "last_modified": {
+        "type": "/type/datetime",
+        "value": "2023-02-28T17:56:57.907558"
+    }
+}
