@@ -8,6 +8,7 @@ ISBN_BASE_URL = 'https://openlibrary.org/isbn/'
 
 
 def ol_search_basic(query: dict, limit: int, offset: int):
+    # queries Open Library requesting basic works-level data.
     query['fields'] = 'title,subtitle,author_name,first_publish_year,key,isbn'
     query['language'] = 'eng'
     query['offset'] = offset
@@ -20,6 +21,16 @@ def ol_search_basic(query: dict, limit: int, offset: int):
 
 
 class OL_Edition:
+    '''
+    Represents an Open Library edition.
+    Primarily used in scoring the edition as a candidate for affiliate links.
+    
+    :var Score: Description
+    :var Format: Description
+    :var Since: Description
+    :var isbn_13: Description
+    :var isbn_10: Description
+    '''
     def __init__(self, isbn):
         query = {'fields': 'title,author_name,publish_date,physical_format,'}
         try:
