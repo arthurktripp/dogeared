@@ -1,3 +1,5 @@
+// This is the optimal choice for Amazon, but its confidence score tied a previously analyzed worse option. I don't think I have enough info available in the OL API to properly score these works.
+
 {
     "title": "Gray Mountain",
     "physical_format": "paperback",

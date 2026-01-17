@@ -1,0 +1,156 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<div class="container">
+    <div class='d-flex align-items-baseline gap-3 mb-3'>
+        <h1>Your Profile</h1>
+        <small><a href='{% url 'users:edit-profile-page' %}'>edit</a></small>
+    </div>
+
+    <div class="row row-flex">
+        
+        <div class='col-md-8'>
+            {% if profile.is_public is True %}
+            <p>View your <a href='{% url 'users:public-profile-page' username=user.username %}'>public profile page</a>.<br>
+                You can disable this in the <a href='{% url 'users:edit-profile-page' %}'>edit panel</a>.</p>
+            {% else %}
+            <p>Your public profile page is disabled. You can enable this in the <a href='{% url 'users:edit-profile-page' %}'>edit panel</a>.</p>
+            {% endif %}
+
+        <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Username</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ user.username }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Name</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ user.first_name }} {{ user.last_name }}</div>
+                </div>
+            </div>
+            
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Pronouns</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.pronouns }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Email</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ user.email }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Website</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div><a href='{{ profile.website }}' target='_blank'>{{ profile.website }}</a></div>
+                </div>
+            </div>
+            
+            <div class="row g-2 align-items-start mb-4">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Location</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.location }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-12 col-sm-4">
+                    <div><strong>Blurb</strong></div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div>{{ profile.blurb }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-4">
+                <div class="col-12 col-sm-4">
+                    <div><strong>Biography</strong></div>
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div>{{ profile.about_me }}</div>
+                </div>
+            </div>
+
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Favorite Genre</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.favorite_genre }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Favorite Author</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.favorite_author }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Everyone should read once</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.recommend_to_everyone }}</div>
+                </div>
+            </div>
+
+            <div class="row g-2 align-items-start mb-2">
+                <div class="col-5 col-sm-4">
+                    <div><strong>Currently reading</strong></div>
+                </div>
+                <div class="col-7 col-sm-8">
+                    <div>{{ profile.currently_reading }}</div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+            <div class="col-md-4">
+                
+                <div>
+                    <strong>Your public user card</strong><br>
+                    This is how you are seen to others in your book clubs.
+                </div>
+                <div class="col-12 col-sm-8">
+                    <div>{% include "core/includes/user-card.html" %}</div>
+                </div>
+                <div class="col-12 col-sm-5">
+                    <div></div>
+                </div>
+            </div>
+
+            
+
+            
+    </div>
+</div>
+
+{% endblock %}

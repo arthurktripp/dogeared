@@ -1,0 +1,45 @@
+{% load static %}
+
+
+<nav class='navbar navbar-expand-lg fixed-top mt-0 pt-0'>
+    <div class='container-sm  gx-5 pb-2 pt-2' style='background-color: var(--bs-content-bg); border-bottom: var(--bs-border-width) solid var(--bs-content-border-color);'>
+        {% comment %} <div id='dog-ear-shape'></div> {% endcomment %}
+        
+        <a class='navbar-brand ' href='{% url 'core:home-page' %}'>
+            <span class='h3'>{{ brand }}</span>
+        </a>
+                
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbar-offcanvas" aria-controls="navbar-offcanvas" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="offcanvas offcanvas-end " id="navbar-offcanvas">
+            <div class='offcanvas-header mb-5'>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            
+            <div class='offcanvas-body w-100 justify-content-end'>
+                <ul class="navbar-nav me-2 mb-5 mb-lg-0 d-flex ">
+                    <li class="nav-item">
+                        <a class="nav-link fst-italic" href="{% url 'core:home-page' %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fst-italic" href="{% url 'bookclubs:all-bookclubs-page' %}">Bookclubs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fst-italic" href="{% url 'shelves:all-shelves-page' %}">Bookshelves</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fst-italic" href="{% url 'users:profile-page' %}">Profile</a>
+                    </li>            
+                </ul>
+                <form class="d-flex ms-3 me-3 align-self-center" role="search" method='POST' action='search/'>
+                    {% csrf_token %}
+                    <input class="form-control me-2 w-100" type="search" placeholder="Find a Book" aria-label="Search">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</nav>

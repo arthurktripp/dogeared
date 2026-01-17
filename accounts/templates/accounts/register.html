@@ -1,0 +1,56 @@
+{% extends "base_public.html" %}
+{% load static %}
+
+
+{% block content %}
+
+
+<div class='container d-flex flex-column justify-content-center vh-100 mx-auto' style='width: 80vw; max-width: 500px;'>    
+    <h1 class='mb-5 mt-5'>Register with <em>dog&#8209;eared</em></h1>
+    
+    <form method='POST' action=''>
+        {% csrf_token %}
+        
+        <div class='form-floating'>
+            {{ form.username }}<br>
+            <label for='id_username' class='form-label'>{{ form.username.label }}</label></br>
+        </div>
+        {% if form.username.errors %}
+        {{ form.username.errors }}<br>
+        {% endif %}
+        
+        <div class='form-floating'>
+            {{ form.email }}<br>
+            <label for='id_email' class='form-label'>{{ form.email.label }}</label></br>
+        </div>
+        {% if form.email.errors %}
+        {{ form.email.errors }}<br>
+        {% endif %}
+        
+        <div class='form-floating'>
+            {{ form.password1 }}<br>
+            <label for='id_password1' class='form-label'>{{ form.password1.label }}</label></br>
+        </div>
+        {% if form.password1.errors %}
+        {{ form.password1.errors }}<br>
+        {% endif %}
+        
+        <div class='form-floating'>
+            {{ form.password2 }}<br>
+            <label for='id_password2' class='form-label'>{{ form.password2.label }}</label></br>
+        </div>
+        {% if form.password2.errors %}
+        {{ form.password2.errors }}<br>
+        {% endif %}
+        
+        
+        <button class='btn btn-primary' type='submit' name='Register User'>Register</button>
+    </form>
+    
+    <p class='mt-5'><a href='{% url 'accounts:login-page' %}'>Log in</a> if you're already a member.<br>
+    Review our <a href='{% url 'core:privacy-policy-page' %}'>Privacy Policy</a>.<p>
+
+</div>
+
+
+{% endblock %}

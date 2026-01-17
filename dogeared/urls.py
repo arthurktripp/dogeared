@@ -21,8 +21,29 @@ from django.urls import path, include
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('bookclub.urls')),
+    # Admin
+    path("admin/", admin.site.urls),
+
+    # Site shell / landing pages
+    path("", include("core.urls")),
+
+    # Authentication & account management
+    path("accounts/", include("accounts.urls")),
+
+    # User profiles (identity, not auth)
+    path("profiles/", include("users.urls")),
+
+    # Books: search + book detail pages
+    path("books/", include("books.urls")),
+
+    # Shelves: personal + club shelves
+    path("shelves/", include("shelves.urls")),
+
+    # Book clubs (membership, governance, settings)
+    path("clubs/", include("bookclubs.urls")),
+
+    # Affiliate outbound links / redirects (optional but future-proof)
+    path("go/", include("affiliates.urls")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:

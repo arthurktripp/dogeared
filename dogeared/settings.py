@@ -35,7 +35,8 @@ ALLOWED_HOSTS = [
     '192.168.1.3',
     '192.168.1.109',
     '192.168.0.25',
-    '172.20.10.6'
+    '172.20.10.6',
+    '192.168.0.129'
 ]
 
 
@@ -49,11 +50,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'core',
-    'users',
+    'accounts',
+    'affiliates',
+    'bookclubs',
     'books',
-    
-    'bookclub',
+    'core',
+    'shelves',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -67,9 +70,9 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'dogeared.urls'
-LOGIN_REDIRECT_URL = 'home-page'
-LOGOUT_REDIRECT_URL = 'login-page'
-LOGIN_URL = 'login-page'
+LOGIN_REDIRECT_URL = 'core:home-page'
+LOGOUT_REDIRECT_URL = 'account:login-page'
+LOGIN_URL = 'account:login-page'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 

@@ -19,7 +19,7 @@
 </head>
 
 <header>
-    {% include "bookclub/includes/navigation.html" %}
+    {% include "core/includes/navigation.html" %}
 </header>
 
 <body>
@@ -51,7 +51,7 @@
             <br><br>
             <p>You are logged in as <strong>{{ request.user.username }}</strong></p>
             
-            <form method="post" action="{% url 'logout-page' %}">
+            <form method="post" action="{% url 'accounts:logout-page' %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-link">Log Out</button>
             </form>
