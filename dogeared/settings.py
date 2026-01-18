@@ -71,8 +71,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'dogeared.urls'
 LOGIN_REDIRECT_URL = 'core:home-page'
-LOGOUT_REDIRECT_URL = 'account:login-page'
-LOGIN_URL = 'account:login-page'
+LOGOUT_REDIRECT_URL = 'accounts:login-page'
+LOGIN_URL = 'accounts:login-page'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 

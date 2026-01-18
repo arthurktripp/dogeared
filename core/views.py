@@ -13,5 +13,4 @@ class HomePageView(View):
         
 class PrivacyPolicyView(View):
     def get(self, request):
-        context = 'temp'
-        return render(request, context)
+        return render(request, 'core/privacy_policy.html')
