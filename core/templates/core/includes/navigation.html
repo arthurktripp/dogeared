@@ -33,9 +33,9 @@
                         <a class="nav-link fst-italic" href="{% url 'users:profile-page' %}">Profile</a>
                     </li>            
                 </ul>
-                <form class="d-flex ms-3 me-3 align-self-center" role="search" method='POST' action='search/'>
-                    {% csrf_token %}
-                    <input class="form-control me-2 w-100" type="search" placeholder="Find a Book" aria-label="Search">
+                <form class="d-flex ms-3 me-3 align-self-center" role="search" method='GET' action="{% url 'books:book-search' %}">
+                    {{ nav_search_form.q }}
+                    {% comment %} <input class="form-control me-2 w-100" type="search" placeholder="Find a Book" aria-label="Search"> {% endcomment %}
                     <button class="btn btn-primary" type="submit">Search</button>
                 </form>
             </div>

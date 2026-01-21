@@ -1,22 +1,107 @@
+from __future__ import annotations
+
+from dataclasses import dataclass
 from datetime import date
-import requests
+from typing import Any
+
 import re
+import requests
 
+from dotenv import load_dotenv
+from os import getenv
 
-SEARCH_BASE_URL = 'https://openlibrary.org/search.json'
+SEARCH_BASE_URL = ''
+FIELDS = "key,title,subtitle,author_name,first_publish_year,cover_i,isbn"
 ISBN_BASE_URL = 'https://openlibrary.org/isbn/'
 
+# ############## #
+# Replaced Google Search Logic
+# ############## #
 
-def ol_search_basic(query: dict, limit: int, offset: int):
+class SearchResult:
+    def __init__(self, item_data):
+        self.volume_info = item_data.get('volumeInfo')
+        self.google_id = item_data.get('id')
+
+        self.title = self.volume_info.get('title')
+        self.authors = self.volume_info.get('authors')
+        self.published = self.volume_info.get('publishedDate')
+        self.maturity_rating = self.volume_info.get('maturityRating')
+        self.thumbnails = self.volume_info.get('imageLinks')
+        self.google_url = self.get_google_v2_url()
+
+    def __repr__(self):
+        authors = ", ".join(self.authors) if self.authors else "Unknown"
+        return f'''
+                Title: {self.title}
+                Author(s): {authors}
+                Published: {self.published}
+                Google Link: {self.google_url}
+                '''
+
+    def get_google_v2_url(self):
+        return f'https://www.google.com/books/edition/_/{self.google_id}'
+
+
+def gb_basic_search(search_terms: str, results_count=10, page=1):
+    query = {
+        'q': search_terms,
+        'key': getenv('GOOGLE_BOOKS_API_KEY'),
+        'maxResults': results_count,
+        'startIndex': (page - 1) * results_count,
+        'printType': 'books',
+        # 'projection': 'lite',
+        # 'orderBy': 'newest',
+        'langRestrict': 'en'
+    }
+    try:
+        r = requests.get(SEARCH_BASE_URL, params=query)
+        r.raise_for_status()
+        data = r.json()
+    except (requests.RequestException, ValueError) as e:
+        # ValueError covers JSON decode errors
+        print(f"Google Books API error for {query['q']}: {e}")
+        data = {'items': []}
+
+    results = []
+    for item in data['items']:
+        result = SearchResult(item)
+        results.append(result)
+
+    print(r.url)
+    return results
+
+
+# def process_search_results(search_results: dict):
+#     results = []
+#     for item in search_results['items']:
+#         result = SearchResult(item)
+#         results.append(result)
+
+#     return results
+
+
+
+
+
+# ############## #
+# Replaced Open Library Logic #
+# ############## #
+
+def ol_search_basic_old(query: dict, limit: int = 10, offset: int = 0):
     # queries Open Library requesting basic works-level data.
-    query['fields'] = 'title,subtitle,author_name,first_publish_year,key,isbn'
+    query['fields'] = FIELDS
     query['language'] = 'eng'
     query['offset'] = offset
     query['limit'] = limit
+
     r = requests.get(SEARCH_BASE_URL, params=query)
     data = r.json()
+
+    # for development:
     print(r.url)
     print(r.text)
+
     return data
 
 
@@ -24,13 +109,14 @@ class OL_Edition:
     '''
     Represents an Open Library edition.
     Primarily used in scoring the edition as a candidate for affiliate links.
-    
+
     :var Score: Description
     :var Format: Description
     :var Since: Description
     :var isbn_13: Description
     :var isbn_10: Description
     '''
+
     def __init__(self, isbn):
         query = {'fields': 'title,author_name,publish_date,physical_format,'}
         try:
@@ -137,11 +223,3 @@ def edition_scoring(search_results: dict):
     return top_result
 
 
-if __name__ == '__main__':
-    # Find a book, then get the optimal edition for linking out
-    print('Search OpenLibrary: ')
-    search_query = input()
-    payload = {"q": search_query}
-    search_results = ol_search_basic(payload, 1, 0)
-
-    print(edition_scoring(search_results))

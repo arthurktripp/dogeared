@@ -2,9 +2,59 @@
 {% load static %}
 
 
+{% partialdef search-result %}
+    <article>
+        {% if r.cover_url %}
+        <img src="{{ r.cover_url }}" alt="Cover for {{ r.title }}">
+        {% endif %}
+
+        <h3>{{ r.title }}</h3>
+
+        {% if r.subtitle %}
+        <p>{{ r.subtitle }}</p>
+        {% endif %}
+
+        {% if r.authors %}
+        <p>{{ r.authors|join:", " }}</p>
+        {% endif %}
+
+        {% if r.first_publish_year %}
+        <p>{{ r.first_publish_year }}</p>
+        {% endif %}
+
+        <!-- handy for later: link to a “work detail” view -->
+        {% comment %} <a href="{% url 'work-detail' r.work_key|slice:'7:' %}">View</a> {% endcomment %}
+        {# turns "/works/OL123W" into "OL123W" #}
+    </article>
+{% endpartialdef %}
+
+
+
 
 {% block content %}
 
+<form method="get">
+    {{ form.q }}
+    <button type="submit">Search</button>
+</form>
 
+{% if results %}
+<p>{{ num_found }} results</p>
+
+<ul>
+    {% for r in results %}
+        {% partial search-result %}
+    {% endfor %}
+</ul>
+
+<nav>
+    {% if has_prev %}
+    <a href="?q={{ q|urlencode }}&page={{ page|add:" -1" }}">Prev</a>
+    {% endif %}
+    {% if has_next %}
+    <a href="?q={{ q|urlencode }}&page={{ page|add:" 1" }}">Next</a>
+    {% endif %}
+</nav>
+{% endif %}
 
 {% endblock %}

@@ -90,6 +90,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 
                 'core.context_processors.brand',
+                'core.context_processors.nav_search_form',
             ],
         },
     },
