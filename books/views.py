@@ -3,9 +3,9 @@ from django.shortcuts import render
 from django.views import View
 
 from django.views.generic import FormView
-from .forms import OpenLibrarySearchForm
+from .forms import OmniSearchForm, AdvancedSearchForm
 from .services.openlibrary import ol_search_basic
-from .services.googlebooks import gb_search_basic
+from .services.googlebooks import gb_search
 
 # Create your views here.
 
@@ -20,7 +20,7 @@ class SearchPageView(LoginRequiredMixin, View):
 
 class BookSearchView(FormView):
     template_name = "books/search.html"
-    form_class = OpenLibrarySearchForm
+    form_class = AdvancedSearchForm
     paginate_by = 10
 
     def get(self, request, *args, **kwargs):
@@ -38,12 +38,15 @@ class BookSearchView(FormView):
 
     def form_valid(self, form):
         q = form.cleaned_data["q"]
+        title = form.cleaned_data['title']
+        author = form.cleaned_data['author']
+        language = form.cleaned_data['language']
         page = form.cleaned_data.get("page") or 1
 
         limit = self.paginate_by
         offset = (page - 1) * limit
 
-        resp = gb_search_basic(q=q, limit=limit, offset=offset)
+        resp = gb_search(limit=limit, offset=offset, q=q, title=title, author=author, language=language)
 
         context = self.get_context_data(
             form=form,
@@ -51,6 +54,10 @@ class BookSearchView(FormView):
             results=resp.results,
             num_found=resp.num_found,
             page=page,
+            offset=offset,
+            title=title,
+            author=author,
+            language=language,
             has_prev=page > 1,
             has_next=(offset + limit) < resp.num_found,
         )

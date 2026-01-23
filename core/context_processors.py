@@ -1,11 +1,11 @@
 from django.utils.safestring import mark_safe
-from books.forms import OpenLibrarySearchForm
+from books.forms import OmniSearchForm
 
 
 def nav_search_form(request):
     # Bind to GET so the query stays in the input after searching
     return {
-        "nav_search_form": OpenLibrarySearchForm(request.GET or None)
+        "nav_search_form": OmniSearchForm(request.GET or None)
     }
 
 

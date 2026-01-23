@@ -1,31 +1,39 @@
 {% extends "base_app.html" %}
 {% load static %}
+{% load querystring %}
+
 
 
 {% partialdef search-result %}
-    <article>
-        {% if r.cover_url %}
-        <img src="{{ r.cover_url }}" alt="Cover for {{ r.title }}">
-        {% endif %}
-
-        <h3>{{ r.title }}</h3>
-
+<div class="card overflow-hidden
+            specific-w-300
+            specific-w-sm-450
+            specific-w-md-600
+            specific-w-lg-720
+            mw-100 mb-3">
+  <div class="row g-0">
+    <div class="col-sm-7">
+      <div class="card-body">
+        <h5 class="card-title mb-1">{{ r.title|safe }}</h5>
         {% if r.subtitle %}
-        <p>{{ r.subtitle }}</p>
+            <small class="text-body-secondary">{{ r.subtitle }}</small>
         {% endif %}
-
         {% if r.authors %}
-        <p>{{ r.authors|join:", " }}</p>
+            <p class="card-text">{{ r.authors|join:', ' }}</p>
+        {% endif %}
+        {% if r.text_snippet %}
+            <p class="card-text">{{ r.text_snippet|safe }}</p>
         {% endif %}
 
-        {% if r.first_publish_year %}
-        <p>{{ r.first_publish_year }}</p>
+      </div>
+    </div>
+    <div class="col-sm-5 d-flex align-items-center justify-content-center my-3">
+        {% if r.cover_url %}
+            <img src="{{ r.cover_url }}" class="img-fluid" alt="Cover image of {{ r.title }}">
         {% endif %}
-
-        <!-- handy for later: link to a “work detail” view -->
-        {% comment %} <a href="{% url 'work-detail' r.work_key|slice:'7:' %}">View</a> {% endcomment %}
-        {# turns "/works/OL123W" into "OL123W" #}
-    </article>
+    </div>
+  </div>
+</div>
 {% endpartialdef %}
 
 
@@ -34,8 +42,8 @@
 {% block content %}
 
 <form method="get">
-    {{ form.q }}
-    <button type="submit">Search</button>
+    {{ form }}
+    <button class="btn btn-primary" type="submit">Search</button>
 </form>
 
 {% if results %}
@@ -49,10 +57,12 @@
 
 <nav>
     {% if has_prev %}
-    <a href="?q={{ q|urlencode }}&page={{ page|add:" -1" }}">Prev</a>
+
+    <a href="{% prev_page_url %}">Prev</a>
+
     {% endif %}
     {% if has_next %}
-    <a href="?q={{ q|urlencode }}&page={{ page|add:" 1" }}">Next</a>
+    <a href="{% next_page_url %}">Next</a>
     {% endif %}
 </nav>
 {% endif %}

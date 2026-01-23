@@ -3,7 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import date
 import requests
-from typing import Any
+from typing import Any, Optional
 
 from dotenv import load_dotenv
 from os import getenv
@@ -28,6 +28,35 @@ class GBSearchResponse:
     num_found: int
     start: int
     results: list[GBSearchResult]
+
+
+@dataclass(frozen=True)
+class SearchParams:
+    q: Optional[str] = None
+    title: Optional[str] = None
+    author: Optional[str] = None
+
+
+def build_google_q(p: SearchParams) -> str:
+    parts: list[str] = []
+
+
+    # free text (keep it last so it broadens rather than overrides)
+    if p.q:
+        parts.append(p.q.strip())
+        
+    # structured fields
+    if p.title:
+        parts.append(f'intitle:"{p.title.strip()}"')
+    if p.author:
+        parts.append(f'inauthor:"{p.author.strip()}"')
+
+    # free text (keep it last so it broadens rather than overrides)
+    if p.q:
+        parts.append(p.q.strip())
+
+    # If user submitted an empty advanced form, avoid q=""
+    return " ".join(parts).strip()
 
 
 def _google_url(google_id: str):
@@ -61,7 +90,15 @@ def map_item_to_result(item: dict[str, Any]) -> GBSearchResult:
     )
 
 
-def gb_search_basic(*, q: str, limit: int = 10, offset: int = 0, language: str = 'en'):
+def gb_search(*, limit: int = 10, offset: int = 0, language: str = 'en', **kwargs):
+    search_parameters = SearchParams(**kwargs)
+    q = build_google_q(search_parameters)
+    if not q:
+        return GBSearchResponse(
+            num_found=0,
+            start=0,
+            results=[]
+        )
     params = {
         'q': q,
         'maxResults': limit,
@@ -76,7 +113,7 @@ def gb_search_basic(*, q: str, limit: int = 10, offset: int = 0, language: str =
         data = r.json()
     except (requests.RequestException, ValueError) as e:
         # ValueError covers JSON decode errors
-        print(f"Google Books API error for {params['q']}: {e}")
+        # print(f"Google Books API error for {params['q']}: {e}")
         data = {'items': []}
 
     items = data.get("items") or []
@@ -90,78 +127,8 @@ def gb_search_basic(*, q: str, limit: int = 10, offset: int = 0, language: str =
     )
 
 
-# ############## #
-# Replaced Logic #
-# ############## #
-
-class SearchResult:
-    def __init__(self, item_data):
-        self.volume_info = item_data.get('volumeInfo')
-        self.google_id = item_data.get('id')
-
-        self.title = self.volume_info.get('title')
-        self.authors = self.volume_info.get('authors')
-        self.published = self.volume_info.get('publishedDate')
-        self.maturity_rating = self.volume_info.get('maturityRating')
-        self.thumbnails = self.volume_info.get('imageLinks')
-        self.google_url = self.get_google_v2_url()
-
-    def __repr__(self):
-        authors = ", ".join(self.authors) if self.authors else "Unknown"
-        return f'''
-                Title: {self.title}
-                Author(s): {authors}
-                Published: {self.published}
-                Google Link: {self.google_url}
-                '''
-
-    def get_google_v2_url(self):
-        return f'https://www.google.com/books/edition/_/{self.google_id}'
-
-
-def gb_basic_search(search_terms: str, results_count=10, page=1):
-    query = {
-        'q': search_terms,
-        'key': getenv('GOOGLE_BOOKS_API_KEY'),
-        'maxResults': results_count,
-        'startIndex': (page - 1) * results_count,
-        'printType': 'books',
-        # 'projection': 'lite',
-        # 'orderBy': 'newest',
-        'langRestrict': 'en'
-    }
-    try:
-        r = requests.get(SEARCH_BASE_URL, params=query)
-        r.raise_for_status()
-        data = r.json()
-    except (requests.RequestException, ValueError) as e:
-        # ValueError covers JSON decode errors
-        print(f"Google Books API error for {query['q']}: {e}")
-        data = {'items': []}
-
-    results = []
-    for item in data['items']:
-        result = SearchResult(item)
-        results.append(result)
-
-    print(r.url)
-    return results
-
-
-# def process_search_results(search_results: dict):
-#     results = []
-#     for item in search_results['items']:
-#         result = SearchResult(item)
-#         results.append(result)
-
-#     return results
 
 
 if __name__ == '__main__':
     search_query = input('Search Google Books: ')
-    # results = gb_basic_search(search_query)
-    # processed_results = process_search_results(results)
-    search_results = gb_search_basic(q=search_query)
-    print(search_results.num_found, search_results.start)
-    for result in search_results.results:
-        print(result)
+    print(gb_search(text=search_query))
