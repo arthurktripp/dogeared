@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date
-import requests
+import html, requests
 from typing import Any, Optional
 
 from dotenv import load_dotenv
@@ -77,7 +77,8 @@ def map_item_to_result(item: dict[str, Any]) -> GBSearchResult:
     subtitle = (volume_info.get('subtitle')) or ''
     authors = (volume_info.get('authors')) or []
     cover_url = image_links.get('thumbnail') if image_links else ''
-    text_snippet = search_info.get('textSnippet') if search_info else ''
+    text_snippet = html.unescape(search_info.get('textSnippet') if search_info else '')
+
 
     return GBSearchResult(
         google_id=google_id,

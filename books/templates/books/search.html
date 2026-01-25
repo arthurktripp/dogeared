@@ -5,34 +5,31 @@
 
 
 {% partialdef search-result %}
-<div class="card overflow-hidden
-            specific-w-300
-            specific-w-sm-450
-            specific-w-md-600
-            specific-w-lg-720
-            mw-100 mb-3">
-  <div class="row g-0">
-    <div class="col-sm-7">
-      <div class="card-body">
-        <h5 class="card-title mb-1">{{ r.title|safe }}</h5>
-        {% if r.subtitle %}
-            <small class="text-body-secondary">{{ r.subtitle }}</small>
-        {% endif %}
-        {% if r.authors %}
-            <p class="card-text">{{ r.authors|join:', ' }}</p>
-        {% endif %}
-        {% if r.text_snippet %}
-            <p class="card-text">{{ r.text_snippet|safe }}</p>
-        {% endif %}
-
-      </div>
+<div class='row'>
+    <div class="card overflow-hidden mw-100 mb-3">
+        <div class="row g-0">
+            <div class="col-sm-7">
+                <div class="card-body">
+                    <h5 class="card-title mb-1">{{ r.title|safe }}</h5>
+                    {% if r.subtitle %}
+                        <small class="text-body-secondary">{{ r.subtitle }}</small>
+                    {% endif %}
+                    {% if r.authors %}
+                        <p class="card-text">{{ r.authors|join:', ' }}</p>
+                    {% endif %}
+                    {% if r.text_snippet %}
+                        <p class="card-text">{{ r.text_snippet|striptags|truncatechars:150 }}</p>
+                    {% endif %}
+                </div>
+            </div>
+            
+            <div class="col-sm-5 d-flex align-items-center justify-content-center my-3">
+                {% if r.cover_url %}
+                    <img src="{{ r.cover_url }}" class="img-fluid" alt="Cover image of {{ r.title }}">
+                {% endif %}
+            </div>
+        </div>
     </div>
-    <div class="col-sm-5 d-flex align-items-center justify-content-center my-3">
-        {% if r.cover_url %}
-            <img src="{{ r.cover_url }}" class="img-fluid" alt="Cover image of {{ r.title }}">
-        {% endif %}
-    </div>
-  </div>
 </div>
 {% endpartialdef %}
 
@@ -41,30 +38,57 @@
 
 {% block content %}
 
-<form method="get">
-    {{ form }}
-    <button class="btn btn-primary" type="submit">Search</button>
-</form>
+<div class='container'>
+    <div class='d-flex align-items-baseline gap-3 mb-3'>
+        <h1>Find a Book</h1>
+    </div>
 
-{% if results %}
-<p>{{ num_found }} results</p>
+    <div class='row mb-3'>
+        <form class='col-md-8' method="get">
+            
+            <div class='visually-hidden'>{{ form.q.label_tag }}</div>
+            {{ form.q }}
+            {{ form.q.errors }}
+            
+            <div class='visually-hidden'>{{ form.title.label_tag }}</div>
+            {{ form.title }}
+            {{ form.title.errors }}
+            
+            <div class='visually-hidden'>{{ form.author.label_tag }}</div>
+            {{ form.author }}
+            {{ form.author.errors }}
+            
+            <div class='visually-hidden'>{{ form.language.label_tag }}</div>
+            {{ form.language }}
+            {{ form.language.errors }}
 
-<ul>
-    {% for r in results %}
-        {% partial search-result %}
-    {% endfor %}
-</ul>
+            <button class="btn btn-primary mt-2" type="submit">Search</button>
+        </form>
+    {% if results %}
+    <p>{{ num_found }} results</p>
+    </div>
 
-<nav>
-    {% if has_prev %}
 
-    <a href="{% prev_page_url %}">Prev</a>
+    <div id='results' class='row'>
+        <div class='col-md-8'>
+            {% for r in results %}
+                {% partial search-result %}
+            {% endfor %}
+        </div>
+    </div>
 
+
+    <nav>
+        {% if has_prev %}
+
+        <a href="{% prev_page_url %}">Prev</a>
+
+        {% endif %}
+        {% if has_next %}
+        <a href="{% next_page_url %}">Next</a>
+        {% endif %}
+    </nav>
     {% endif %}
-    {% if has_next %}
-    <a href="{% next_page_url %}">Next</a>
-    {% endif %}
-</nav>
-{% endif %}
+</div>
 
 {% endblock %}

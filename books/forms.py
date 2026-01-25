@@ -32,7 +32,7 @@ class AdvancedSearchForm(forms.Form):
         label='query',
         widget=forms.TextInput(attrs={
             "placeholder": "Title, author, subject…",
-            "class": "form-control me-2",
+            "class": "form-control my-2",
             }),        
     )
     
@@ -42,7 +42,7 @@ class AdvancedSearchForm(forms.Form):
         label='Book Title',
         widget=forms.TextInput(attrs={
             'placeholder': 'Book Title',
-            'class': 'form-control me-2'
+            'class': 'form-control my-2'
         })
     )
     
@@ -52,20 +52,33 @@ class AdvancedSearchForm(forms.Form):
         label='Author',
         widget=forms.TextInput(attrs={
             'placeholder': 'Author',
-            'class': 'form-control me-2'
+            'class': 'form-control my-2'
         })
     )
     
     language = forms.ChoiceField(
         choices={
-            'en': 'English',
-            'es': 'Español'
+            "en": "English",
+            "es": "Español",
+            "pt": "Português",
+            "fr": "Français",
+            "de": "Deutsch",
+            "it": "Italiano",
+            "nl": "Nederlands",
+            "sv": "Svenska",
+            "no": "Norsk",
+            "da": "Dansk",
+            "fi": "Suomi",
+            "pl": "Polski",
+            "cs": "Čeština",
+            "hu": "Magyar",
+            "ro": "Română",
             },
         required=False,
         label='Language',
-        # widget=forms.ChoiceField(attrs={
-        #     'class': 'form-control me-2'
-        # })
+        widget=forms.Select(attrs={
+            'class': 'form-control form-select my-2'
+        })
     )
     
     page = forms.IntegerField(required=False, min_value=1)
