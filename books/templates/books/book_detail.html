@@ -1,0 +1,43 @@
+{% extends "base_app.html" %}
+{% load static %}
+
+
+
+{% block content %}
+
+<div class='row text-center'>
+    <hr>
+    <h1>{{ book.title }}</h1>
+    <p>{{ book.authors|join:', ' }}</p>
+    {% if book.subtitle %}
+    <p>{{ book.subtitle }}</p>
+    {% endif %}
+    <hr>
+</div>
+
+<div class='row'>
+    <div class='col-4'>
+        <img class='img-fluid' src='{{ book.image_links.thumbnail }}'>
+    </div>
+    <div class='col-8'>
+        {% if book.main_category %}
+            <p>{{ book.main_category }}</p>
+        {% elif book.categories %}
+            <ul>
+                {% for cat in book.categories %}
+                <li>{{ cat }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+
+<div class='row'>
+    {% if book.description %}
+    <p>{{ book.description|striptags }}</p>
+    {% endif %}
+</div>
+
+
+
+{% endblock %}

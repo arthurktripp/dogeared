@@ -10,7 +10,7 @@
         <div class="row g-0">
             <div class="col-sm-7">
                 <div class="card-body">
-                    <h5 class="card-title mb-1">{{ r.title|safe }}</h5>
+                    <a href='{% url 'books:book-detail' googleid=r.google_id %}'><h5 class="card-title mb-1">{{ r.title|safe }}</h5></a>
                     {% if r.subtitle %}
                         <small class="text-body-secondary">{{ r.subtitle }}</small>
                     {% endif %}

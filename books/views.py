@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
 from django.shortcuts import render
 from django.views import View
 
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 from .forms import OmniSearchForm, AdvancedSearchForm
-from .services.openlibrary import ol_search_basic
-from .services.googlebooks import gb_search
+from .services.googlebooks import gb_search, retrieve_volume
 
 # Create your views here.
 
@@ -46,7 +46,8 @@ class BookSearchView(FormView):
         limit = self.paginate_by
         offset = (page - 1) * limit
 
-        resp = gb_search(limit=limit, offset=offset, q=q, title=title, author=author, language=language)
+        resp = gb_search(limit=limit, offset=offset, q=q,
+                         title=title, author=author, language=language)
 
         context = self.get_context_data(
             form=form,
@@ -62,3 +63,23 @@ class BookSearchView(FormView):
             has_next=(offset + limit) < resp.num_found,
         )
         return self.render_to_response(context)
+
+
+class BookDetailView(TemplateView):
+    template_name = 'books/book_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        google_id = self.kwargs["googleid"]
+
+        detail = retrieve_volume(google_id)
+        if detail is None:
+            raise Http404("Book not found")
+
+        # Common convention: provide both names
+        context["book"] = detail
+        context["object"] = detail
+        context["google_id"] = google_id
+
+        return context

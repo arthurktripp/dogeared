@@ -39,21 +39,13 @@ class SearchParams:
 
 def build_google_q(p: SearchParams) -> str:
     parts: list[str] = []
-
-
-    # free text (keep it last so it broadens rather than overrides)
     if p.q:
         parts.append(p.q.strip())
         
-    # structured fields
     if p.title:
         parts.append(f'intitle:"{p.title.strip()}"')
     if p.author:
         parts.append(f'inauthor:"{p.author.strip()}"')
-
-    # free text (keep it last so it broadens rather than overrides)
-    if p.q:
-        parts.append(p.q.strip())
 
     # If user submitted an empty advanced form, avoid q=""
     return " ".join(parts).strip()
@@ -114,7 +106,7 @@ def gb_search(*, limit: int = 10, offset: int = 0, language: str = 'en', **kwarg
         data = r.json()
     except (requests.RequestException, ValueError) as e:
         # ValueError covers JSON decode errors
-        # print(f"Google Books API error for {params['q']}: {e}")
+        print(f"Google Books API error for {params['q']}: {e}")
         data = {'items': []}
 
     items = data.get("items") or []
@@ -128,8 +120,84 @@ def gb_search(*, limit: int = 10, offset: int = 0, language: str = 'en', **kwarg
     )
 
 
+@dataclass(frozen=True)
+class BookDetail:
+    google_id: str
+    title: str
+    subtitle: str | None
+    authors: list[str]
+    description: str | None
+    main_category: str | None
+    categories: list[str] | None
+    language: str | None
+    avg_rating: int | None
+    image_links: dict[str, Any] | None
+    # is_mature: bool
+    identifiers: dict | None
+    
+
+def map_to_detail(item: dict[str, Any]) -> BookDetail:
+    google_id = item.get('id')
+    volume_info = item.get('volumeInfo')
+    
+    title = volume_info.get('title')
+    subtitle = volume_info.get('subtitle')
+    authors = volume_info.get('authors')
+    
+    description = volume_info.get('description')
+    if description:
+        description = html.unescape(description)
+    
+    main_category = volume_info.get('mainCategory')
+    categories = volume_info.get('categories')
+    language = volume_info.get('langiage')
+    avg_rating = volume_info.get('averageRating')
+    # is_mature = volume_info.get('maturityRating') == 'MATURE'
+    
+    image_links = volume_info.get('imageLinks')
+    
+    industry_identifiers = volume_info.get('industryIdentifiers')
+    if industry_identifiers:
+        identifiers = {
+            item["type"]: item["identifier"]
+            for item in industry_identifiers
+            }
+    else:
+        identifiers = {}
+        
+    detail = BookDetail(
+        google_id=google_id,
+        title=title,
+        subtitle=subtitle,
+        authors=authors,
+        description=description,
+        main_category=main_category,
+        categories=categories,
+        language=language,
+        avg_rating=avg_rating,
+        image_links=image_links,
+        # is_mature=is_mature,
+        identifiers=identifiers,
+    )
+    return detail
+
+
+def retrieve_volume(volume_id: str) -> object | None:
+    try:
+        params = {'key': getenv('GOOGLE_BOOKS_API_KEY')}
+        r = requests.get(f'{SEARCH_BASE_URL}/{volume_id}', params)
+        r.raise_for_status()
+        data = r.json()
+    except (requests.RequestException, ValueError) as e:
+        print(f"Google Books API error for {volume_id}: {e}")
+        return None
+    return map_to_detail(data)
+        
 
 
 if __name__ == '__main__':
-    search_query = input('Search Google Books: ')
-    print(gb_search(text=search_query))
+    # search_query = input('Search Google Books: ')
+    # print(gb_search(text=search_query))
+    
+    volume_id = input('Enter a Google Volume ID:')
+    print(retrieve_volume(volume_id))
