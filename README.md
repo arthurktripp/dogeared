@@ -22,3 +22,15 @@ There are three permissions levels for members of a book club.
 1. Member: adds books to shortlists, voting, and forums (if implemented later)
 2. Moderator: admits new members, initiates shortlists, initiates voting periods, etc. (Optional level that may be best suited for larger clubs)
 3. Owner - creates/delete group, update group settings, adds moderators.
+
+
+## Development:
+After cloning, add a '.env' file to the project root. Variables to define:
+DJANGO_SECRET_KEY=''
+GOOGLE_BOOKS_API_KEY=''
+
+$ python3 manage.py migrate
+
+Create a superuser:
+$ python3 manage.py createsuperuser
+-- follow prompts
