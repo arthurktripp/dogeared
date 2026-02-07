@@ -2,7 +2,71 @@
 {% load static %}
 
 
+{% block content %}
 
+<div class="container">
+    <div class='row'>
+        <h1 class=>{{ book.title }}</h1>
+    
+        {% if book.subtitle %}
+        <p>{{ book.subtitle }}</p>
+        {% endif %}
+    </div>
+
+    <div class='row mb-3'>
+        <div class='col-md-5'>
+            <p class='fs-4'><strong>{{ book.authors|join:', ' }}</strong></p>
+
+            {% if book.main_category %}
+                <p>{{ book.main_category }}</p>
+            {% endif %}
+            {% if book.categories %}
+                <ul class='list-group mb-3'>
+                    {% for cat in book.categories|slice:'0:2' %}
+                    <li class='list-group-item'>{{ cat }}</li>
+                    {% endfor %}
+                </ul>
+                <div class='d-flex justify-content-center btn-group' role='group'>
+                    <button type="button" class="btn btn-secondary">Add to Shelf</button>
+                    <button type="button" class="btn btn-secondary">Purchase</button>
+                </div>
+            {% endif %}
+
+        </div>
+        <div class='d-flex justify-content-center col-md-3 mt-3'>
+            <img class='img-fluid' src='{{ book.image_links.thumbnail }}'>
+        </div>
+    </div>
+
+    <div class='row mt-2'>
+        <div class='col-md-8 '>
+            {% if book.description %}
+                <p>{{ book.description|striptags }}</p>
+            {% endif %}
+        </div>
+
+    </div>
+
+
+</div>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
 {% block content %}
 
 <div class='row text-center'>
@@ -16,15 +80,17 @@
 </div>
 
 <div class='row'>
-    <div class='col-4'>
+    <div class='col-4'></div>
+    <div class='col-2'>
         <img class='img-fluid' src='{{ book.image_links.thumbnail }}'>
     </div>
-    <div class='col-8'>
+    <div class='col-6'>
         {% if book.main_category %}
             <p>{{ book.main_category }}</p>
-        {% elif book.categories %}
+        {% endif %}
+        {% if book.categories %}
             <ul>
-                {% for cat in book.categories %}
+                {% for cat in book.categories|slice:'0:3' %}
                 <li>{{ cat }}</li>
                 {% endfor %}
             </ul>
@@ -40,4 +106,4 @@
 
 
 
-{% endblock %}
+{% endblock %} {% endcomment %}
