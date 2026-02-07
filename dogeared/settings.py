@@ -30,16 +30,8 @@ SECRET_KEY = getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    '192.168.1.3',
-    '192.168.1.109',
-    '192.168.0.25',
-    '172.20.10.6',
-    '192.168.0.129',
-    '192.168.1.2',
-    '192.168.0.2'
-]
+ALLOWED_HOSTS = getenv("ALLOWED_HOSTS", "").split(",")
+
 
 
 # Application definition
