@@ -1,0 +1,35 @@
+{% extends "base_app.html" %}
+{% block content %}
+<div class="container py-4" style="max-width: 720px;">
+  <h1 class="mb-3">New shelf</h1>
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.name.id_for_label }}">Name</label>
+      {{ form.name }}
+      {% if form.name.errors %}
+        <div class="text-danger small mt-1">{{ form.name.errors }}</div>
+      {% endif %}
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.description.id_for_label }}">Description (optional)</label>
+      {{ form.description }}
+      {% if form.description.errors %}
+        <div class="text-danger small mt-1">{{ form.description.errors }}</div>
+      {% endif %}
+    </div>
+
+    <button class="btn btn-primary" type="submit">Create shelf</button>
+    <a class="btn btn-secondary" href="{% url 'shelves:all-shelves-page' %}">Cancel</a>
+  </form>
+</div>
+{% endblock %}
