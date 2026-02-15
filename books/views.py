@@ -8,6 +8,7 @@ from .forms import OmniSearchForm, AdvancedSearchForm
 from .services.googlebooks import gb_search, retrieve_volume
 
 from shelves.models import Shelf
+from shelves.forms import ShelfCreateForm
 
 # Create your views here.
 
@@ -91,6 +92,8 @@ class BookDetailView(TemplateView):
             context['shelf_choices'] = list(qs)
             context['shelf_total'] = qs.count()
             context['can_create_new_shelf'] = context['shelf_total'] < MAX_SHELVES_PER_USER
+            new_shelf_form = ShelfCreateForm()
+            context['new_shelf_form'] = new_shelf_form
         else:
             context['shelf_choices'] = []
             context['shelf_total'] = 0

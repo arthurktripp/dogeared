@@ -90,28 +90,30 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content px-5 pb-5 pt-4">
             <p class='fs-3'>Add to New Shelf:</p>
-            <form method="post" novalidate>
+            <form method="POST" action="{% url 'shelves:add-book' %}">
                 {% csrf_token %}
 
-                {% if form.non_field_errors %}
+                <input type="hidden" name="external_id" value="{{ google_id }}">
+
+                {% if new_shelf_form.non_field_errors %}
                 <div class="alert alert-danger">
-                    {{ form.non_field_errors }}
+                    {{ new_shelf_form.non_field_errors }}
                 </div>
                 {% endif %}
 
                 <div class="mb-3">
-                <label class="form-label" for="{{ form.name.id_for_label }}">Name</label>
-                {{ form.name }}
-                {% if form.name.errors %}
-                    <div class="text-danger small mt-1">{{ form.name.errors }}</div>
+                <label class="form-label" for="{{ new_shelf_form.name.id_for_label }}">Name</label>
+                {{ new_shelf_form.name }}
+                {% if new_shelf_form.name.errors %}
+                    <div class="text-danger small mt-1">{{ new_shelf_form.name.errors }}</div>
                 {% endif %}
                 </div>
 
                 <div class="mb-3">
-                <label class="form-label" for="{{ form.description.id_for_label }}">Description (optional)</label>
-                {{ form.description }}
-                {% if form.description.errors %}
-                    <div class="text-danger small mt-1">{{ form.description.errors }}</div>
+                <label class="form-label" for="{{ fnew_shelf_formm.description.id_for_label }}">Description (optional)</label>
+                {{ new_shelf_form.description }}
+                {% if new_shelf_form.description.errors %}
+                    <div class="text-danger small mt-1">{{ new_shelf_form.description.errors }}</div>
                 {% endif %}
                 </div>
 
@@ -122,19 +124,6 @@
         </div>
     </div>
 </div>
-
-
-{% comment %} <script id="bookDetailPayload" type="application/json">
-{
-  "google_id": "{{ book.google_id|escapejs }}",
-  "title": "{{ book.title|escapejs }}",
-  "subtitle": "{{ book.subtitle|default_if_none:''|escapejs }}",
-  "authors": {{ book.authors|json_script:"authors_json" }},
-  "image_links": {{ book.image_links|json_script:"img_json" }}
-}
-</script> {% endcomment %}
-
-
 
 
 {% endblock %}

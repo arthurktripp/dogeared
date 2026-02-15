@@ -72,12 +72,21 @@ class AddBookToShelfView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         shelf_id = request.POST.get("shelf_id")
         external_id = request.POST.get("external_id")
+        new_shelf_name = request.POST.get("name")
+        new_shelf_description = request.POST.get("description")
         
 
-        if not shelf_id or not external_id:
-            return HttpResponseBadRequest("Missing shelf_id or external_id")
+        if not external_id:
+            return HttpResponseBadRequest("Missing external_id")
 
-        shelf = get_object_or_404(Shelf, id=shelf_id, user=request.user)
+        if shelf_id:
+            shelf = get_object_or_404(Shelf, id=shelf_id, user=request.user)
+        else:
+            shelf = Shelf(
+                user=request.user,
+                name=new_shelf_name,
+                description=new_shelf_description
+            )
 
         
         volume = retrieve_volume(external_id)
