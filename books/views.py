@@ -7,6 +7,8 @@ from django.views.generic import FormView, TemplateView
 from .forms import OmniSearchForm, AdvancedSearchForm
 from .services.googlebooks import gb_search, retrieve_volume
 
+from shelves.models import Shelf
+
 # Create your views here.
 
 
@@ -65,6 +67,9 @@ class BookSearchView(FormView):
         return self.render_to_response(context)
 
 
+SHELF_MODAL_LIMIT = 5
+MAX_SHELVES_PER_USER = 100
+
 class BookDetailView(TemplateView):
     template_name = 'books/book_detail.html'
 
@@ -77,9 +82,19 @@ class BookDetailView(TemplateView):
         if detail is None:
             raise Http404("Book not found")
 
-        # Common convention: provide both names
         context["book"] = detail
         context["object"] = detail
         context["google_id"] = google_id
 
+        if self.request.user.is_authenticated:
+            qs = Shelf.objects.filter(user=self.request.user).order_by('-updated_at')
+            context['shelf_choices'] = list(qs)
+            context['shelf_total'] = qs.count()
+            context['can_create_new_shelf'] = context['shelf_total'] < MAX_SHELVES_PER_USER
+        else:
+            context['shelf_choices'] = []
+            context['shelf_total'] = 0
+            context['can_create_new_shelf'] = False
+        
         return context
+

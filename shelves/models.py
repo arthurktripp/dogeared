@@ -32,6 +32,10 @@ class Shelf(models.Model):
     name = models.CharField(max_length=80)
     description = models.CharField(max_length=280, blank=True)
     is_public = models.BooleanField(default=False)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
     class Meta:
         constraints = [

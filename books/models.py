@@ -10,8 +10,7 @@ class Book(models.Model):
                               )
     external_id = models.CharField(max_length=64, blank=False)
     title = models.CharField(max_length=512, blank=True)
-    authors = models.CharField(max_length=512, blank=True)
-    thumbnail_url = models.URLField(blank=True)
+    authors = models.JSONField(default=list, blank=True)
     
     class Meta:
         constraints = [

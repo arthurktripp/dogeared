@@ -5,7 +5,38 @@
 
 {% block content %}
 
-<p>This will be a list of all the bookshelves you have.</p>
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0">My Shelves</h1>
+    <a href="{% url 'shelves:create' %}" class="btn btn-primary">
+      New shelf
+    </a>
+  </div>
 
+  {% if shelves %}
+    <div class="list-group">
+      {% for shelf in shelves %}
+        <a href=""
+           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ shelf.name }}</strong>
+            {% if shelf.description %}
+              <div class="text-muted small">{{ shelf.description }}</div>
+            {% endif %}
+          </div>
+
+          <span class="badge bg-secondary rounded-pill">
+            {{ shelf.book_count }} book{{ shelf.book_count|pluralize }}
+          </span>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="alert alert-secondary">
+      You don’t have any shelves yet.
+      <a href="{% url 'shelves:create' %}" class="alert-link">Create one?</a>
+    </div>
+  {% endif %}
+</div>
 
 {% endblock %}

@@ -8,6 +8,8 @@ from typing import Any, Optional
 from dotenv import load_dotenv
 from os import getenv
 
+from books.models import Book
+
 SEARCH_BASE_URL = 'https://www.googleapis.com/books/v1/volumes'
 load_dotenv()
 
@@ -201,3 +203,16 @@ if __name__ == '__main__':
     
     volume_id = input('Enter a Google Volume ID:')
     print(retrieve_volume(volume_id))
+
+
+
+def create_book_object(book_attrs: object) -> Book:
+
+    book, created = Book.objects.get_or_create(
+        source=book_attrs["source"],
+        external_id=book_attrs["external_id"],
+        title=book_attrs["title"],
+        authors=book_attrs["authors"]
+    )
+
+    return book

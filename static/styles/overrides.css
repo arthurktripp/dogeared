@@ -42,3 +42,13 @@
   background: #f2f2ef;
   clip-path: polygon(80% 0, 60% 80%, 0 60%);
 } */
+
+
+/* Disable hover effects on touch devices */
+/* targeting list-group-items primaryily in the add to shelf */
+@media (hover: none) and (pointer: coarse) {
+  .list-group-item.list-group-item-action:hover {
+    background-color: inherit;
+    color: inherit;
+  }
+}
