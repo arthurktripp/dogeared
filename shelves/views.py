@@ -10,7 +10,7 @@ from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DetailView, DeleteView
 
 
 from .forms import ShelfCreateForm
@@ -74,7 +74,6 @@ class AddBookToShelfView(LoginRequiredMixin, View):
         external_id = request.POST.get("external_id")
         new_shelf_name = request.POST.get("name")
         new_shelf_description = request.POST.get("description")
-        
 
         if not external_id:
             return HttpResponseBadRequest("Missing external_id")
@@ -87,6 +86,7 @@ class AddBookToShelfView(LoginRequiredMixin, View):
                 name=new_shelf_name,
                 description=new_shelf_description
             )
+            shelf.save()
 
         
         volume = retrieve_volume(external_id)
@@ -94,18 +94,17 @@ class AddBookToShelfView(LoginRequiredMixin, View):
             return HttpResponseBadRequest("Unable to find volume")
 
 
-        book, created = Book.objects.get_or_create(
+        book, book_created = Book.objects.get_or_create(
             source="google",
             external_id=external_id,
             title=volume.title,
             authors=volume.authors
         )
         
-        user_book, created = UserBook.objects.get_or_create(
+        user_book, user_book_created = UserBook.objects.get_or_create(
             user=request.user,
             book=book            
         )
-        
 
         shelf_item, shelf_item_created = ShelfItem.objects.get_or_create(
             shelf=shelf,
@@ -127,3 +126,44 @@ class AddBookToShelfView(LoginRequiredMixin, View):
             reverse_lazy("books:book-detail", kwargs={"googleid": external_id})
         )
 
+
+class ShelfDetailView(LoginRequiredMixin, DetailView):
+    model = Shelf
+    template_name = "shelves/shelf_detail.html"
+    context_object_name = "shelf"
+    
+    # enforces ownership
+    def get_queryset(self):
+        return Shelf.objects.filter(user=self.request.user)
+    
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+
+        sort = self.request.GET.get("sort", "custom")
+        direction = self.request.GET.get("dir", "asc")  # optional
+
+        items = (
+            ShelfItem.objects
+            .filter(shelf=self.object)
+            .select_related("user_book", "user_book__book")
+        )
+
+        if sort == "title":
+            order = "user_book__book__title"
+        elif sort == "author":
+            order = "user_book__book__authors"  # or author_sort if you have it
+        elif sort == "date_added":
+            order = "added_at"                  # your field name may differ
+        else:  # custom
+            order = "position"
+
+        if direction == "desc":
+            order = "-" + order
+
+        ctx["items"] = items.order_by(order, "id")  # stable tie-breaker
+        ctx["current_sort"] = sort
+        ctx["current_dir"] = direction
+        return ctx
+
+class RemoveBookFromShelfView(LoginRequiredMixin, DeleteView):
+    pass

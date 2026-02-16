@@ -16,7 +16,7 @@
   {% if shelves %}
     <div class="list-group">
       {% for shelf in shelves %}
-        <a href=""
+        <a href="{% url "shelves:shelf-detail" slug=shelf.slug %}"
            class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
           <div>
             <strong>{{ shelf.name }}</strong>

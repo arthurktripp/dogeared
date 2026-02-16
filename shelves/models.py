@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.text import slugify
 
 from dogeared import settings
 
@@ -16,7 +17,8 @@ class UserBook(models.Model):
     rating = models.PositiveSmallIntegerField(null=True, blank=True)
     progress = models.PositiveIntegerField(null=True, blank=True)
     started_at = models.DateTimeField(null=True, blank=True)
-    finished_at = models.DateTimeField(null=True, blank=True)
+    finished_at = models.DateField(null=True, blank=True)
+    is_favorite = models.BooleanField(default=False)
 
     class Meta:
         constraints = [
@@ -30,6 +32,7 @@ class Shelf(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     
     name = models.CharField(max_length=80)
+    slug = models.SlugField(max_length=90)
     description = models.CharField(max_length=280, blank=True)
     is_public = models.BooleanField(default=False)
     
@@ -40,8 +43,29 @@ class Shelf(models.Model):
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=["user", "name"],
-                                    name="uniq_shelf_name_per_user")
+                                    name="uniq_shelf_name_per_user"),
+            models.UniqueConstraint(fields=["user", "slug"],
+                                    name="uniq_shelf_user_slug"),
         ]
+    
+    def _generate_unique_slug(self) -> str:
+        base = slugify(self.name) or "shelf"
+        slug = base
+        i = 2
+
+        qs = Shelf.objects.filter(user=self.user)
+        if self.pk:
+            qs = qs.exclude(pk=self.pk)
+
+        while qs.filter(slug=slug).exists():
+            slug = f"{base}-{i}"
+            i += 1
+
+        return slug
+
+    def save(self, *args, **kwargs):
+        self.slug = self._generate_unique_slug()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name
