@@ -3,17 +3,19 @@ import json
 
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 from django.db import IntegrityError, transaction
 from django.db.models import Count
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
-from django.views.generic import CreateView, ListView, DetailView, DeleteView
+from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 
 
-from .forms import ShelfCreateForm
+from .forms import ShelfCreateForm, ShelfUpdateForm
 from .models import Shelf, ShelfItem
 
 from books.models import Book
@@ -65,6 +67,19 @@ class ShelfCreateView(LoginRequiredMixin, CreateView):
         messages.success(self.request, f'Created shelf: "{form.instance.name}".')
         return response
 
+
+class ShelfUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    model = Shelf
+    form_class = ShelfUpdateForm
+    template_name = "shelves/shelf_update.html"
+    success_message = f'%(name)s updated successfully.'
+    
+    def get_queryset(self):
+        return Shelf.objects.filter(user=self.request.user)
+    
+    def get_success_url(self):
+        return reverse("shelves:shelf-detail", kwargs={"slug": self.object.slug})
+    
 
 class AddBookToShelfView(LoginRequiredMixin, View):
     http_method_names = ["post"]

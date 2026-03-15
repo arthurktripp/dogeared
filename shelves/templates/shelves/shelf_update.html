@@ -2,12 +2,13 @@
 {% block content %}
 
 
+
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h1 class="mb-0">New shelf</h1>
+      <h1 class="mb-0">{{ shelf.name }} | Edit</h1>
     </div>
 
-  <form method="post" novalidate>
+  <form method="post" >
     {% csrf_token %}
 
     {% if form.non_field_errors %}
@@ -31,8 +32,15 @@
         <div class="text-danger small mt-1">{{ form.description.errors }}</div>
       {% endif %}
     </div>
+    <div class="mb-3">
+      <label class="form-label" for="{{ form.is_public.id_for_label }}">Public Bookshelf</label>
+      {{ form.is_public }}
+      {% if form.is_public.errors %}
+        <div class="text-danger small mt-1">{{ form.is_public.errors }}</div>
+      {% endif %}
+    </div>
 
-    <button class="btn btn-primary" type="submit">Create shelf</button>
+    <button class="btn btn-primary" type="submit">Save Changes</button>
     <a class="btn btn-secondary" href="{% url 'shelves:all-shelves-page' %}">Cancel</a>
   </form>
 </div>
