@@ -209,3 +209,6 @@ __marimo__/
 
 # Misc
 .DS_Store
+
+db.sqlite3.backup
+.claude
