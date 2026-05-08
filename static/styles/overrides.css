@@ -2,7 +2,8 @@
 @font-face {
   font-family: "Cormorant Garamond";
   src: url("../fonts/cormorant-garamond/CormorantGaramond-VariableFont_wght.woff2") format("woff2");
-  font-weight: 300 700;   /* adjust if you want a narrower range */
+  font-weight: 300 700;
+  /* adjust if you want a narrower range */
   font-style: normal;
   font-display: swap;
 }
@@ -18,18 +19,31 @@
 
 
 :root {
-  --bs-font-size-base: 1rem;   /* was 0.875rem */
-  --bs-font-size-sm:   0.9rem; /* was 0.75rem */
-  --bs-font-size-lg:   1.1rem; /* was 1rem */
+  --bs-font-size-base: 1rem;
+  /* was 0.875rem */
+  --bs-font-size-sm: 0.9rem;
+  /* was 0.75rem */
+  --bs-font-size-lg: 1.1rem;
+  /* was 1rem */
   --bs-font-serif: "Cormorant Garamond", Apple Garamond, Baskerville, Times New Roman, Droid Serif, Times, Source Serif Pro, serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
 }
 
 .container-wide {
   max-width: 1000px;
 }
+
 .container-medium {
   max-width: 960px;
 }
+
+body,
+nav div.top-nav {
+  background-color: var(--bs-content-bg);
+  background-image: url('/static/images/paper-texture.svg');
+  background-repeat: repeat;
+  background-size: 7px 7px;
+}
+
 
 
 /* #dog-ear-shape {
