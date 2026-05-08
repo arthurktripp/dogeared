@@ -219,14 +219,16 @@ class ShelfReorderView(LoginRequiredMixin, View):
         if not ids:
             return self._error(request)
 
-        shelf_item_ids = set(
-            ShelfItem.objects.filter(shelf=shelf).values_list("id", flat=True)
-        )
-        if len(ids) != len(set(ids)) or set(ids) != shelf_item_ids:
+        items = list(ShelfItem.objects.filter(shelf=shelf))
+        shelf_item_ids = {item.id for item in items}
+
+        ids_set = set(ids)
+        if len(ids) != len(ids_set):  # duplicates
+            return self._error(request)
+        if ids_set != shelf_item_ids:  # missing, unknown, or foreign
             return self._error(request)
 
         with transaction.atomic():
-            items = list(ShelfItem.objects.filter(shelf=shelf))
             order = {item_id: idx for idx, item_id in enumerate(ids)}
             for item in items:
                 item.position = order[item.id]
