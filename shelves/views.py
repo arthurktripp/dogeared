@@ -180,5 +180,24 @@ class ShelfDetailView(LoginRequiredMixin, DetailView):
         ctx["current_dir"] = direction
         return ctx
 
-class RemoveBookFromShelfView(LoginRequiredMixin, DeleteView):
-    pass
+class RemoveBookFromShelfView(LoginRequiredMixin, View):
+    http_method_names = ["post"]
+
+    def post(self, request, *args, **kwargs):
+        shelf_slug = kwargs.get("shelf_slug")
+        item_id = kwargs.get("item_id")
+
+        shelf = get_object_or_404(Shelf, slug=shelf_slug, user=request.user)
+        shelf_item = get_object_or_404(ShelfItem, id=item_id, shelf=shelf)
+
+        book_title = shelf_item.user_book.book.title
+        shelf_item.delete()
+
+        messages.success(
+            request,
+            f'Removed "{book_title}" from {shelf.name}.'
+        )
+
+        return HttpResponseRedirect(
+            reverse("shelves:shelf-detail", kwargs={"slug": shelf.slug})
+        )
