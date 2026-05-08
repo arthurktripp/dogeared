@@ -18,12 +18,20 @@
         </div>
     </div>
 
-    <div class="list-group col-md-8">
+    <div class="list-group col-md-8{% if current_sort == 'custom' %} sortable{% endif %}"
+         {% if current_sort == 'custom' %}
+         hx-post="{% url 'shelves:shelf-reorder' shelf.slug %}"
+         hx-trigger="end"
+         hx-swap="none"
+         hx-include="this"
+         hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+         {% endif %}>
         {% for item in items %}
         <div class="list-group-item " data-item-id="{{ item.id }}">
+            <input type="hidden" name="item" value="{{ item.id }}">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="d-flex align-items-center me-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grip-vertical-icon lucide-grip-vertical"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-grip-vertical-icon lucide-grip-vertical drag-handle" style="cursor: grab;"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></svg>
                     <div class="mx-3">
                         <div class="fw-bold">{{ item.user_book.book.title }}</div>
                         <div class="text-muted">{{ item.user_book.book.authors|join:', ' }}</div>

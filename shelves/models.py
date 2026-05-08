@@ -75,7 +75,7 @@ class ShelfItem(models.Model):
     shelf = models.ForeignKey(Shelf, on_delete=models.CASCADE, related_name='items')
     user_book = models.ForeignKey(UserBook, on_delete=models.CASCADE)
     added_at = models.DateTimeField(auto_now_add=True)
-    position = models.PositiveIntegerField(null=True, blank=True)
+    position = models.PositiveIntegerField()
     
     class Meta:
         constraints = [
