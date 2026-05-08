@@ -23,6 +23,7 @@
          hx-post="{% url 'shelves:shelf-reorder' shelf.slug %}"
          hx-trigger="end"
          hx-swap="none"
+         hx-include="this"
          hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
          {% endif %}>
         {% for item in items %}
