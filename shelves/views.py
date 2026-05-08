@@ -8,7 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 from django.db import IntegrityError, transaction
 from django.db.models import Count
-from django.http import HttpResponseBadRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
@@ -201,3 +201,42 @@ class RemoveBookFromShelfView(LoginRequiredMixin, View):
         return HttpResponseRedirect(
             reverse("shelves:shelf-detail", kwargs={"slug": shelf.slug})
         )
+
+
+class ShelfReorderView(LoginRequiredMixin, View):
+    http_method_names = ["post"]
+
+    def post(self, request, *args, **kwargs):
+        slug = kwargs["slug"]
+        shelf = get_object_or_404(Shelf, slug=slug, user=request.user)
+
+        raw = request.POST.getlist("item")
+        try:
+            ids = [int(x) for x in raw]
+        except (TypeError, ValueError):
+            return self._error(request)
+
+        if not ids:
+            return self._error(request)
+
+        shelf_item_ids = set(
+            ShelfItem.objects.filter(shelf=shelf).values_list("id", flat=True)
+        )
+        if len(ids) != len(set(ids)) or set(ids) != shelf_item_ids:
+            return self._error(request)
+
+        with transaction.atomic():
+            items = list(ShelfItem.objects.filter(shelf=shelf))
+            order = {item_id: idx for idx, item_id in enumerate(ids)}
+            for item in items:
+                item.position = order[item.id]
+            ShelfItem.objects.bulk_update(items, ["position"])
+
+        return HttpResponse(status=204)
+
+    def _error(self, request):
+        messages.error(
+            request,
+            "Couldn't save the new order. Please try again.",
+        )
+        return HttpResponse(status=400)

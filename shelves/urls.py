@@ -9,5 +9,6 @@ urlpatterns = [
     path('add/', views.AddBookToShelfView.as_view(), name='add-book'),
     path('remove/<slug:shelf_slug>/<int:item_id>', views.RemoveBookFromShelfView.as_view(), name='remove-book'),
     path('my-shelves/<slug:slug>/', views.ShelfDetailView.as_view(), name='shelf-detail'),
+    path('my-shelves/<slug:slug>/reorder/', views.ShelfReorderView.as_view(), name='shelf-reorder'),
     path('my-shelves/<slug:slug>/edit', views.ShelfUpdateView.as_view(), name='shelf-update'),
 ]
