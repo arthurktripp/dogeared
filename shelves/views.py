@@ -7,7 +7,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 
 
 from django.db import IntegrityError, transaction
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -121,9 +121,15 @@ class AddBookToShelfView(LoginRequiredMixin, View):
             book=book            
         )
 
+        last_position = ShelfItem.objects.filter(shelf=shelf).aggregate(
+            Max("position")
+        )["position__max"]
+        next_position = 0 if last_position is None else last_position + 1
+
         shelf_item, shelf_item_created = ShelfItem.objects.get_or_create(
             shelf=shelf,
             user_book=user_book,
+            defaults={"position": next_position},
         )
 
         if shelf_item_created:

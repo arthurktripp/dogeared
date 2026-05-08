@@ -1,3 +1,6 @@
+from types import SimpleNamespace
+from unittest.mock import patch
+
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -113,3 +116,59 @@ class ShelfReorderViewTests(TestCase):
             self.assertEqual(
                 ShelfItem.objects.get(id=item_id).position, index
             )
+
+
+class AddBookToShelfPositionTests(TestCase):
+    def setUp(self):
+        User = get_user_model()
+        self.user = User.objects.create_user(
+            username="alice",
+            email="alice@example.com",
+            password="pw",
+        )
+        self.shelf = Shelf.objects.create(user=self.user, name="My Shelf")
+
+    def _add(self, external_id, title):
+        with patch(
+            "shelves.views.retrieve_volume",
+            return_value=SimpleNamespace(title=title, authors=["Author"]),
+        ):
+            return self.client.post(
+                reverse("shelves:add-book"),
+                {"shelf_id": self.shelf.id, "external_id": external_id},
+            )
+
+    def test_first_book_gets_position_zero(self):
+        self.client.force_login(self.user)
+        self._add("ext0", "Book 0")
+        item = ShelfItem.objects.get(shelf=self.shelf)
+        self.assertEqual(item.position, 0)
+
+    def test_subsequent_books_append_to_bottom(self):
+        self.client.force_login(self.user)
+        self._add("ext0", "Book 0")
+        self._add("ext1", "Book 1")
+        self._add("ext2", "Book 2")
+        positions = list(
+            ShelfItem.objects.filter(shelf=self.shelf)
+            .order_by("position")
+            .values_list("position", flat=True)
+        )
+        self.assertEqual(positions, [0, 1, 2])
+
+    def test_appends_after_manually_set_high_position(self):
+        # If existing items have non-contiguous positions (e.g., after a
+        # reorder), a newly added book lands strictly after the highest.
+        book = Book.objects.create(
+            source="google", external_id="seed", title="Seed", authors=["a"]
+        )
+        ub = UserBook.objects.create(user=self.user, book=book)
+        ShelfItem.objects.create(shelf=self.shelf, user_book=ub, position=42)
+
+        self.client.force_login(self.user)
+        self._add("ext_new", "New")
+
+        new_item = ShelfItem.objects.get(
+            shelf=self.shelf, user_book__book__external_id="ext_new"
+        )
+        self.assertEqual(new_item.position, 43)
