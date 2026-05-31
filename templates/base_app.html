@@ -23,6 +23,23 @@
 </header>
 
 <body>
+
+    {% if messages %}
+    <div class="toast-container position-fixed bottom-0 end-0 p-2 z-3 m-5">
+        {% for message in messages %}
+        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <strong class="me-auto">Notice</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="alert alert-{{ message.tags }} alert-dismissable fade show m-3" role="alert">
+                {{ message }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
     <div id='content-container' class='container-sm mt-md-5'>
         <div class='container-wide'>
         {% block content %}
@@ -34,15 +51,7 @@
         {% comment %}
             This message container is placed temporarily and should be replaced.
         {% endcomment %}
-        {% if messages %}
-        <div class="container mt-3">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
+        
         
         
         
