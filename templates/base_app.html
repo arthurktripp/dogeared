@@ -46,26 +46,19 @@
         {% endblock content %}
         </div>
     </div>
+                
         
+    {% comment %} Temporary content {% endcomment %}
+    <div class='container'>
+        <br><br>
+        <p>You are logged in as <strong>{{ request.user.username }}</strong></p>
+        
+        <form method="post" action="{% url 'accounts:logout-page' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link">Log Out</button>
+        </form>
+    </div>
 
-        {% comment %}
-            This message container is placed temporarily and should be replaced.
-        {% endcomment %}
-        
-        
-        
-        
-        {% comment %} Temporary content {% endcomment %}
-        <div class='container'>
-            <br><br>
-            <p>You are logged in as <strong>{{ request.user.username }}</strong></p>
-            
-            <form method="post" action="{% url 'accounts:logout-page' %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-link">Log Out</button>
-            </form>
-        </div>
-    
     <script src="{% static 'scripts/bootstrap.bundle.js' %}" ></script>
     <script src="{% static 'scripts/htmx.min.js' %}"></script>
     <script src="{% static 'scripts/Sortable.min.js' %}"></script>
