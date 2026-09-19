@@ -11,6 +11,7 @@ from django.db.models import Count, Max
 from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
+from django.utils.html import format_html
 from django.views import View
 from django.views.generic import CreateView, ListView, DetailView, DeleteView, UpdateView
 
@@ -133,14 +134,22 @@ class AddBookToShelfView(LoginRequiredMixin, View):
         )
 
         if shelf_item_created:
+            shelf_url = reverse("shelves:shelf-detail", kwargs={"slug": shelf.slug})
             messages.success(
                 request,
-                f"Added {book.title} to {shelf.name}."
+                format_html(
+                    'Added {} to <a href="{}">{}</a>.',
+                    book.title, shelf_url, shelf.name
+                )
             )
         else:
+            shelf_url = reverse("shelves:shelf-detail", kwargs={"slug": shelf.slug})
             messages.info(
                 request,
-                f"{book.title} is already on {shelf.name}."
+                format_html(
+                    '{} is already on <a href="{}">{}</a>.',
+                    book.title, shelf_url, shelf.name
+                )
             )
         
         return HttpResponseRedirect(

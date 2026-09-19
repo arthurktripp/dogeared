@@ -144,7 +144,7 @@ def map_to_detail(item: dict[str, Any]) -> BookDetail:
     
     title = volume_info.get('title')
     subtitle = volume_info.get('subtitle')
-    authors = volume_info.get('authors')
+    authors = volume_info.get('authors') or []
     
     description = volume_info.get('description')
     if description:
