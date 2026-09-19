@@ -1,0 +1,438 @@
+[
+{
+  "model": "books.book",
+  "pk": 1,
+  "fields": {
+    "source": "google",
+    "external_id": "SlNIxp0uSR0C",
+    "title": "Ubik",
+    "authors": [
+      "Philip K. Dick"
+    ]
+  }
+},
+{
+  "model": "books.book",
+  "pk": 2,
+  "fields": {
+    "source": "google",
+    "external_id": "8VDwswEACAAJ",
+    "title": "West of Hell",
+    "authors": [
+      "Whiskey Emerson"
+    ]
+  }
+},
+{
+  "model": "books.book",
+  "pk": 3,
+  "fields": {
+    "source": "google",
+    "external_id": "ZKs8zgEACAAJ",
+    "title": "East of Hell",
+    "authors": [
+      "Whiskey Emerson"
+    ]
+  }
+},
+{
+  "model": "books.book",
+  "pk": 4,
+  "fields": {
+    "source": "google",
+    "external_id": "LKgxDwAAQBAJ",
+    "title": "Fifty Must-Try Craft Beers of Ohio",
+    "authors": [
+      "Rick Armon"
+    ]
+  }
+},
+{
+  "model": "books.book",
+  "pk": 5,
+  "fields": {
+    "source": "google",
+    "external_id": "x4avTmSuQi4C",
+    "title": "The Celestine Prophecy",
+    "authors": [
+      "James Redfield"
+    ]
+  }
+},
+{
+  "model": "books.book",
+  "pk": 6,
+  "fields": {
+    "source": "google",
+    "external_id": "zfuOEAAAQBAJ",
+    "title": "Sapiens",
+    "authors": [
+      "Yuval Noah Harari"
+    ]
+  }
+},
+{
+  "model": "books.book",
+  "pk": 7,
+  "fields": {
+    "source": "google",
+    "external_id": "agjLXHJo9bgC",
+    "title": "The Epic of Gilgamesh",
+    "authors": []
+  }
+},
+{
+  "model": "books.book",
+  "pk": 8,
+  "fields": {
+    "source": "google",
+    "external_id": "7uvOEQAAQBAJ",
+    "title": "A Short Stay in Hell",
+    "authors": [
+      "Steven L. Peck"
+    ]
+  }
+},
+{
+  "model": "books.book",
+  "pk": 9,
+  "fields": {
+    "source": "google",
+    "external_id": "zhG-EAAAQBAJ",
+    "title": "Bike Buying Guide",
+    "authors": [
+      "Chand Kumawat"
+    ]
+  }
+},
+{
+  "model": "shelves.shelfitem",
+  "pk": 1,
+  "fields": {
+    "shelf": 1,
+    "user_book": 1,
+    "added_at": "2026-05-31T00:58:12.339Z",
+    "position": 1
+  }
+},
+{
+  "model": "shelves.shelfitem",
+  "pk": 2,
+  "fields": {
+    "shelf": 2,
+    "user_book": 2,
+    "added_at": "2026-05-31T00:59:08.856Z",
+    "position": 1
+  }
+},
+{
+  "model": "shelves.shelfitem",
+  "pk": 3,
+  "fields": {
+    "shelf": 2,
+    "user_book": 3,
+    "added_at": "2026-05-31T00:59:17.516Z",
+    "position": 0
+  }
+},
+{
+  "model": "shelves.shelfitem",
+  "pk": 5,
+  "fields": {
+    "shelf": 1,
+    "user_book": 5,
+    "added_at": "2026-06-03T23:08:28.378Z",
+    "position": 0
+  }
+},
+{
+  "model": "shelves.shelfitem",
+  "pk": 6,
+  "fields": {
+    "shelf": 3,
+    "user_book": 6,
+    "added_at": "2026-09-19T17:24:29.183Z",
+    "position": 1
+  }
+},
+{
+  "model": "shelves.shelfitem",
+  "pk": 7,
+  "fields": {
+    "shelf": 3,
+    "user_book": 7,
+    "added_at": "2026-09-19T17:43:48.686Z",
+    "position": 0
+  }
+},
+{
+  "model": "shelves.shelfitem",
+  "pk": 8,
+  "fields": {
+    "shelf": 1,
+    "user_book": 8,
+    "added_at": "2026-09-19T17:44:24.413Z",
+    "position": 2
+  }
+},
+{
+  "model": "shelves.shelfitem",
+  "pk": 9,
+  "fields": {
+    "shelf": 4,
+    "user_book": 9,
+    "added_at": "2026-09-19T17:55:01.835Z",
+    "position": 0
+  }
+},
+{
+  "model": "users.customuser",
+  "fields": {
+    "password": "pbkdf2_sha256$1200000$ldURYvlNqAT7WxYAsprS31$0vW5sWT4R3HvHF9QgP+zuTHHTw+7KdU1LL8rFyXIlgY=",
+    "last_login": "2026-09-19T17:23:00.670Z",
+    "is_superuser": false,
+    "username": "rendezbrew",
+    "first_name": "Arthur",
+    "last_name": "Tripp",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2026-05-31T00:47:20.103Z",
+    "email": "arthur.k.tripp@gmail.com",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.profile",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "is_public": true,
+    "profile_pic": "default-profile.png",
+    "blurb": "I'm the developer of dog-eared.",
+    "about_me": "Biography",
+    "location": "Seattle, WA",
+    "pronouns": "He/Him",
+    "website": "https://arthurktripp.com",
+    "favorite_genre": "Sci-Fi",
+    "favorite_author": "Cormac McCarthy",
+    "recommend_to_everyone": "Dharma Bums",
+    "currently_reading": "A Short Stay in Hell"
+  }
+},
+{
+  "model": "shelves.shelf",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "name": "Recent Reads",
+    "slug": "recent-reads",
+    "description": "Books I've read recently.",
+    "is_public": true,
+    "created_at": "2026-05-31T00:58:12.096Z",
+    "updated_at": "2026-05-31T01:44:23.749Z"
+  }
+},
+{
+  "model": "shelves.shelf",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "name": "Written by Friends",
+    "slug": "written-by-friends",
+    "description": "",
+    "is_public": false,
+    "created_at": "2026-05-31T00:59:08.615Z",
+    "updated_at": "2026-05-31T00:59:08.615Z"
+  }
+},
+{
+  "model": "shelves.shelf",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "name": "Books IRL",
+    "slug": "books-irl",
+    "description": "Books that I own, have read, or am currently reading.",
+    "is_public": false,
+    "created_at": "2026-09-19T17:24:28.999Z",
+    "updated_at": "2026-09-19T18:00:10.855Z"
+  }
+},
+{
+  "model": "shelves.shelf",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "name": "Bike Stuff",
+    "slug": "bike-stuff",
+    "description": "",
+    "is_public": false,
+    "created_at": "2026-09-19T17:55:01.636Z",
+    "updated_at": "2026-09-19T17:55:01.636Z"
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 1,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 1,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 2,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 2,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 3,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 3,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 4,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 4,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 5,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 5,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 6,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 6,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 7,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 8,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+},
+{
+  "model": "shelves.userbook",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "arthur.k.tripp@gmail.com"
+    ],
+    "book": 9,
+    "notes": "",
+    "have_read": false,
+    "rating": null,
+    "progress": null,
+    "started_at": null,
+    "finished_at": null,
+    "is_favorite": false
+  }
+}
+]
